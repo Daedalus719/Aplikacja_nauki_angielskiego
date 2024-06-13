@@ -13,10 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Strona główna') }}
                     </x-nav-link>
                     <x-nav-link :href="route('courses')" :active="request()->routeIs('courses')">
-                        {{ __('Courses') }}
+                        {{ __('Kursy') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('tests')" :active="request()->routeIs('tests')">
+                        {{ __('Testy') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -38,7 +41,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Profil') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -48,7 +51,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Wyloguj się') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>

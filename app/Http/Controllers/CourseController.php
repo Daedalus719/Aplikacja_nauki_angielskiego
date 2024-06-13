@@ -9,7 +9,7 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::all();
-        return view('course.courses', compact('courses'));
+        return view('courses', compact('courses'));
     }
 
     public function show(Course $course)
@@ -20,7 +20,7 @@ class CourseController extends Controller
 
     public function create()
     {
-        return view('create');
+        return view('course.create');
     }
 
     public function store(Request $request)
@@ -31,6 +31,30 @@ class CourseController extends Controller
         ]);
 
         Course::create($request->all());
+
+        return redirect()->route('courses');
+    }
+
+    public function edit(Course $course)
+    {
+        return view('course.edit', compact('course'));
+    }
+
+    public function update(Request $request, Course $course)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $course->update($request->all());
+
+        return redirect()->route('courses');
+    }
+
+    public function destroy(Course $course)
+    {
+        $course->delete();
 
         return redirect()->route('courses');
     }
