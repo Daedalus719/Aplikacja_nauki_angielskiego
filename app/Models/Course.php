@@ -11,8 +11,14 @@ class Course extends Model
 
     protected $fillable = ['title', 'description'];
 
+
     public function words()
     {
         return $this->hasMany(Word::class);
+    }
+
+    public function tests()
+    {
+        return $this->hasMany(Test::class);
     }
 }

@@ -1,22 +1,35 @@
 <x-app-layout>
     <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Edit Test') }}
+        </h2>
     </x-slot>
 
-    <div class="container">
-        <h1>Edit Course</h1>
-        <form method="POST" action="{{ route('course.update', $course) }}">
-            @csrf
-            @method('PATCH')
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <form method="POST" action="{{ route('tests.update', $test) }}">
+                        @csrf
+                        @method('PUT')
 
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ $course->title }}" required>
+                        <div class="mb-4">
+                            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                            <input type="text" name="title" id="title" class="form-input rounded-md shadow-sm mt-1 block w-full" value="{{ $test->title }}" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea name="description" id="description" rows="3" class="form-textarea mt-1 block w-full rounded-md shadow-sm" required>{{ $test->description }}</textarea>
+                        </div>
+
+                        <button type="submit" style="background-color: blue; color: white; padding: 10px; border-radius: 5px;">
+                            Update Test
+                        </button>
+
+                    </form>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" required>{{ $course->description }}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Update Course</button>
-        </form>
+        </div>
     </div>
 </x-app-layout>

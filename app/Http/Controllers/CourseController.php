@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Test;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -30,7 +31,16 @@ class CourseController extends Controller
             'description' => 'required|string',
         ]);
 
-        Course::create($request->all());
+        $course = Course::create([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        Test::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'course_id' => $course->id,
+        ]);
 
         return redirect()->route('courses');
     }
