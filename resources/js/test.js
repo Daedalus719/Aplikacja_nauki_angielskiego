@@ -46,3 +46,5 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#missingLettersForm button[type="button"]').addEventListener('click', checkMissingLetters);
     document.querySelector('#translationForm button[type="button"]').addEventListener('click', checkTranslations);
 });
+
+

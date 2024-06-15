@@ -10,7 +10,7 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::all();
-        return view('courses', compact('courses'));
+        return view('course.index', compact('courses'));
     }
 
     public function show(Course $course)
@@ -42,7 +42,7 @@ class CourseController extends Controller
             'course_id' => $course->id,
         ]);
 
-        return redirect()->route('courses');
+        return redirect()->route('course.index');
     }
 
     public function edit(Course $course)
@@ -59,13 +59,13 @@ class CourseController extends Controller
 
         $course->update($request->all());
 
-        return redirect()->route('courses');
+        return redirect()->route('course.index');
     }
 
     public function destroy(Course $course)
     {
         $course->delete();
 
-        return redirect()->route('courses');
+        return redirect()->route('course.index');
     }
 }

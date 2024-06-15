@@ -16,7 +16,7 @@
         </ul>
         <div class="tab-content mt-4" id="testTabContent">
             <div class="tab-pane fade show active" id="missing-letters" role="tabpanel" aria-labelledby="missing-letters-tab">
-                <h3>Missing Letters Test</h3>
+                <h3>Wypełnij brakujące litery</h3>
                 <form id="missingLettersForm">
                     @php
                         $selectedWords = $words->random(5);
@@ -33,7 +33,7 @@
                             $wordWithBlank = implode('', $letters);
                         @endphp
                         <div class="mb-3">
-                            <label class="form-label">Fill in the missing letter: {!! $wordWithBlank !!}</label>
+                            <label class="form-label">Wpisz brakującą spółgłoskę: {!! $wordWithBlank !!} ({{ $word->polish_word }}) </label>
                             <input type="hidden" name="correct_letter[{{ $word->id }}]" value="{{ $correctLetter }}">
                         </div>
                     @endforeach
@@ -55,6 +55,7 @@
             </div>
         </div>
     </div>
+
 
     @vite('resources/js/test.js')
 </x-app-layout>

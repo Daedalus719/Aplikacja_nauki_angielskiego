@@ -34,7 +34,7 @@ use App\Http\Controllers\TestController;
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses');
+    Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
     Route::get('/course/create', [CourseController::class, 'create'])->name('course.create');
     Route::post('/course', [CourseController::class, 'store'])->name('course.store');
     Route::get('/course/{course}', [CourseController::class, 'show'])->name('course.show');
