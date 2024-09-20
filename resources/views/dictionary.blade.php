@@ -29,15 +29,15 @@
                 <div class="mb-3">
                     <label for="word_type" class="form-label">Typ słowa</label>
                     <select class="form-control" id="word_type" name="word_type" required>
-                        <option value="noun">Rzeczownik</option>
-                        <option value="verb">Czasownik</option>
-                        <option value="adjective">Przymiotnik</option>
-                        <option value="adverb">Przysłowek</option>
-                        <option value="pronoun">Zaimek</option>
-                        <option value="preposition">Przyimek</option>
-                        <option value="conjunction">Spójnik</option>
-                        <option value="interjection">Wykrzyknik</option>
-                        <option value="idiom">Idiom</option>
+                        <option value="Noun (Rzeczownik)">Rzeczownik</option>
+                        <option value="Verb (Czasownik)">Czasownik</option>
+                        <option value="Adjective (Przymiotnik)">Przymiotnik</option>
+                        <option value="Adverb (Przysłowek)">Przysłowek</option>
+                        <option value="Pronoun (Zaimek)">Zaimek</option>
+                        <option value="Preposition (Przyimek)">Przyimek</option>
+                        <option value="Conjunction (Spójnik)">Spójnik</option>
+                        <option value="Interjection (Wykrzyknik)">Wykrzyknik</option>
+                        <option value="Idiom (Idiom)">Idiom</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -48,26 +48,49 @@
             </form>
         </div>
 
+        <h2>Szukaj Słów</h2>
+        <form method="GET" action="{{ route('words.search') }}" id="wordSearchForm">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="searchWord" placeholder="Wpisz słowo (polskie lub angielskie)" aria-label="Szukaj słowa" autocomplete="off">
+            </div>
+            <ul id="wordSuggestions" class="list-group" style="position: absolute; z-index: 1000;"></ul>
+        </form>
 
-        <table class="table table-bordered">
+        <div style="overflow-x: auto; overflow-y: auto; max-height: 400px; max-width: 100%;">
+        <table class="table mt-3 table-bordered">
             <thead>
                 <tr>
                     <th>Angielskie słowo:</th>
                     <th>Angielska wymowa:</th>
                     <th>Typ słowa:</th>
                     <th>Polskie tłumaczenie</th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="wordTableBody">
                 @foreach ($words as $word)
-                    <tr>
-                        <td>{{ $word->english_word }}</td>
-                        <td>{{ $word->pronunciation }}</td>
-                        <td>{{ ucfirst($word->word_type) }}</td>
-                        <td>{{ $word->polish_word }}</td>
+                    <tr id="word-row-{{ $word->id }}">
+                        <td class="english-word">{{ $word->english_word }}</td>
+                        <td class="pronunciation">{{ $word->pronunciation }}</td>
+                        <td class="word-type">{{ ucfirst($word->word_type) }}</td>
+                        <td class="polish-word">{{ $word->polish_word }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-secondary edit-btn" data-word-id="{{ $word->id }}">Edytuj</button>
+                            <button class="btn btn-sm btn-outline-success save-btn" data-word-id="{{ $word->id }}" style="display: none;">Zapisz</button>
+
+                            <form action="{{ route('words.destroy', $word->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz usunąć to słowo?')">Usuń</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
+
+
+    @vite('resources/js/dictionary.js')
 </x-app-layout>

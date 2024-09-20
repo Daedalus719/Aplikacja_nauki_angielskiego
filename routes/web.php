@@ -43,6 +43,12 @@ Route::get('/search-word', [CourseWordController::class, 'searchWord'])->name('c
 
 Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
 Route::match(['get', 'post'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
+Route::get('/search-words', [WordController::class, 'search'])->name('words.search');
+Route::get('/words/{id}', [WordController::class, 'show'])->name('words.show');
+Route::get('/words', [WordController::class, 'index'])->name('words.index');
+Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
+Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
+Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
 
 
 Route::middleware('auth')->group(function () {

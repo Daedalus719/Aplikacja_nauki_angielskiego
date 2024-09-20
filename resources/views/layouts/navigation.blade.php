@@ -16,14 +16,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Strona główna') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('dictionary')" :active="request()->routeIs('dictionary')">
+                        {{ __('Słownik') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
                         {{ __('Słownictwo') }}
                     </x-nav-link>
                     <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
                         {{ __('Testy') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dictionary')" :active="request()->routeIs('dictionary')">
-                        {{ __('Słownik') }}
                     </x-nav-link>
                 </div>
             </div>
