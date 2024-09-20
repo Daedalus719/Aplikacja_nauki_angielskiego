@@ -33,6 +33,9 @@ use App\Http\Controllers\WordController;
 use App\Http\Controllers\TestController;
 
 
+Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
     Route::get('/course/create', [CourseController::class, 'create'])->name('course.create');

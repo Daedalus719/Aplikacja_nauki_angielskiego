@@ -43,4 +43,11 @@ class WordController extends Controller
 
         return redirect()->route('course.show', $course);
     }
+
+    public function dictionary()
+    {
+        $words = Word::all();
+
+        return view('dictionary', compact('words'));
+    }
 }
