@@ -10,12 +10,12 @@ class CreateWordsTable extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('course_id');
             $table->string('english_word');
+            $table->string('pronunciation')->nullable();
+            $table->string('word_type');
             $table->string('polish_word');
             $table->timestamps();
 
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 

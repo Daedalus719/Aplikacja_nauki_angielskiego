@@ -14,7 +14,7 @@ class Course extends Model
 
     public function words()
     {
-        return $this->hasMany(Word::class);
+        return $this->belongsToMany(Word::class, 'course_word');
     }
 
     public function tests()

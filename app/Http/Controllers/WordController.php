@@ -8,46 +8,30 @@ use Illuminate\Http\Request;
 
 class WordController extends Controller
 {
-    public function store(Request $request, Course $course)
-    {
+    public function dictionary(Request $request)
+{
+    if ($request->isMethod('post')) {
         $request->validate([
-            'english_word' => 'required|string|max:255',
             'polish_word' => 'required|string|max:255',
+            'english_word' => 'required|string|max:255',
+            'pronunciation' => 'nullable|string|max:255',
+            'word_type' => 'required|string|max:255',
         ]);
 
-        $course->words()->create($request->all());
-
-        return redirect()->route('course.show', $course);
-    }
-
-    public function edit(Course $course, Word $word)
-    {
-        return view('words.edit', compact('course', 'word'));
-    }
-
-    public function update(Request $request, Course $course, Word $word)
-    {
-        $request->validate([
-            'english_word' => 'required|string|max:255',
-            'polish_word' => 'required|string|max:255',
+        Word::create([
+            'polish_word' => $request->polish_word,
+            'english_word' => $request->english_word,
+            'pronunciation' => $request->pronunciation,
+            'word_type' => $request->word_type,
         ]);
 
-        $word->update($request->all());
-
-        return redirect()->route('course.show', $course);
+        return redirect()->route('dictionary')->with('success', 'Wpis został dodany do bazy!');
     }
 
-    public function destroy(Course $course, Word $word)
-    {
-        $word->delete();
+    $words = Word::all();
 
-        return redirect()->route('course.show', $course);
-    }
+    return view('dictionary', compact('words'));
+}
 
-    public function dictionary()
-    {
-        $words = Word::all();
 
-        return view('dictionary', compact('words'));
-    }
 }

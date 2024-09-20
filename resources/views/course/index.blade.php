@@ -32,7 +32,7 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ $course->description }}</p>
-                        <a href="{{ route('course.show', $course) }}" class="btn btn-primary">Przejdź do kursu</a>
+                        <a href="{{ route('course-words.show', $course) }}" class="btn btn-primary">Przejdź do kursu</a>
                     </div>
                 </div>
             </div>

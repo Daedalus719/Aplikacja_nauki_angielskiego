@@ -8,10 +8,11 @@ class Word extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['course_id', 'english_word', 'polish_word'];
+    protected $fillable = ['english_word', 'pronunciation', 'word_type', 'polish_word'];
 
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
-    }
+    public function courses()
+{
+    return $this->belongsToMany(Course::class, 'course_word');
+}
+
 }
