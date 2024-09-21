@@ -12,6 +12,7 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                             <span>{{ $test->title }}</span>
+                            @if (Auth::user()->role === 'Admin')
                             <div>
                                 <a href="{{ route('tests.edit', $test) }}" class="btn btn-sm btn-outline-secondary">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
@@ -28,6 +29,7 @@
                                     </button>
                                 </form>
                             </div>
+                            @endif
                         </div>
                         <div class="card-body">
                             <p class="card-text">{{ $test->description }}</p>

@@ -13,6 +13,7 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span>{{ $course->title }}</span>
+                        @if (Auth::user()->role === 'Admin')
                         <div>
                             <a href="{{ route('course.edit', $course) }}" class="btn btn-sm btn-outline-secondary">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
@@ -29,6 +30,7 @@
                                 </button>
                             </form>
                         </div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ $course->description }}</p>
@@ -38,7 +40,7 @@
             </div>
         @endforeach
 
-        <!-- Add new course card -->
+        @if (Auth::user()->role === 'Admin')
         <div class="col-md-6">
             <div class="card mb-4">
                 <div class="card-header">
@@ -51,6 +53,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
 </x-app-layout>

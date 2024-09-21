@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+//edytowanie i usuwanie wpisów przez ajax
 document.addEventListener('DOMContentLoaded', function() {
     const editButtons = document.querySelectorAll('.edit-btn');
     const saveButtons = document.querySelectorAll('.save-btn');
