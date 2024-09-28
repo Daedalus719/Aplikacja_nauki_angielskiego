@@ -6,64 +6,66 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\WordController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CourseWordController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Dashboard as default, accessible without login
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Dictionary accessible without login
+Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
+Route::match(['get', 'post'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
 
+// Courses and Tests index and show accessible without login
+Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
+Route::get('/course/{course}', [CourseWordController::class, 'show'])->name('course-words.show');
+Route::get('/tests', [TestController::class, 'index'])->name('tests.index');
+Route::get('/tests/{test}', [TestController::class, 'show'])->name('tests.show');
+
+// The following routes require authentication
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-//Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'Admin']);
-
-Route::middleware('auth')->group(function () {
-    Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
-    Route::match(['get', 'post'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
     Route::get('/search-words', [WordController::class, 'search'])->name('words.search');
     Route::get('/words/{id}', [WordController::class, 'show'])->name('words.show');
     Route::get('/words', [WordController::class, 'index'])->name('words.index');
-});
 
-Route::middleware(['auth', 'Admin'])->group(function () {
-    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
-    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
-    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
-    Route::get('/course/{course}', [CourseWordController::class, 'show'])->name('course-words.show');
+    // For authenticated users to add words to courses
     Route::post('/course/{course}', [CourseWordController::class, 'store'])->name('course-words.store');
     Route::get('/search-word', [CourseWordController::class, 'searchWord'])->name('course-words.search');
 });
 
+// Routes that require Admin privileges
 Route::middleware(['auth', 'Admin'])->group(function () {
+    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
+    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
+    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
+
     Route::get('/course/create', [CourseController::class, 'create'])->name('course.create');
     Route::post('/course', [CourseController::class, 'store'])->name('course.store');
     Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit');
     Route::patch('/course/{course}', [CourseController::class, 'update'])->name('course.update');
     Route::delete('/course/{course}', [CourseController::class, 'destroy'])->name('course.destroy');
-});
 
-Route::middleware('auth')->group(function () {
-    Route::get('/tests', [TestController::class, 'index'])->name('tests.index');
-    Route::get('/tests/{test}', [TestController::class, 'show'])->name('tests.show');
-});
-
-Route::middleware(['auth', 'Admin'])->group(function () {
     Route::get('/tests/create', [TestController::class, 'create'])->name('tests.create');
     Route::post('/tests', [TestController::class, 'store'])->name('tests.store');
     Route::get('/tests/{test}/edit', [TestController::class, 'edit'])->name('tests.edit');
     Route::put('/tests/{test}', [TestController::class, 'update'])->name('tests.update');
     Route::delete('/tests/{test}', [TestController::class, 'destroy'])->name('tests.destroy');
+
+    Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel');
+    Route::post('/admin/user/update/{id}', [AdminController::class, 'updateUser'])->name('admin.user.update');
 });
+
+
+Route::middleware(['auth', 'Admin'])->group(function () {
+    Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel');
+    Route::post('/admin/user/update/{id}', [AdminController::class, 'updateUser'])->name('admin.user.update');
+    Route::delete('/admin/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
+});
+
+
 
 require __DIR__.'/auth.php';

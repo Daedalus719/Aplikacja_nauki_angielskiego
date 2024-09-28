@@ -15,7 +15,7 @@
         @endif
 
 
-        @if (Auth::user()->role === 'Admin')
+        @if (Auth::check() && Auth::user()->usertype === 'Admin')
             <div class="mb-3">
                 <form action="{{ route('dictionary') }}" method="POST">
                     @csrf
@@ -67,7 +67,7 @@
                         <th>Angielska wymowa:</th>
                         <th>Typ słowa:</th>
                         <th>Polskie tłumaczenie</th>
-                        @if (Auth::user()->role === 'Admin')
+                        @if (Auth::check() && Auth::user()->usertype === 'Admin')
                             <th>Akcje</th>
                         @endif
                     </tr>
@@ -79,7 +79,7 @@
                             <td class="pronunciation">{{ $word->pronunciation }}</td>
                             <td class="word-type">{{ ucfirst($word->word_type) }}</td>
                             <td class="polish-word">{{ $word->polish_word }}</td>
-                            @if (Auth::user()->role === 'Admin')
+                            @if (Auth::check() && Auth::user()->usertype === 'Admin')
                                 <td>
                                     <button class="btn btn-sm btn-outline-secondary edit-btn"
                                         data-word-id="{{ $word->id }}">Edytuj</button>

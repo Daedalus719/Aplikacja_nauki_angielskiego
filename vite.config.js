@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/test.js',
                 'resources/js/dictionary.js',
+                'resources/js/admin.js',
             ],
             refresh: true,
         }),

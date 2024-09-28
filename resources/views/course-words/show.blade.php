@@ -2,7 +2,7 @@
     <x-slot name="header"></x-slot>
 
     <div class="container">
-        @if (Auth::user()->role === 'Admin')
+        @if (Auth::check() && Auth::user()->usertype === 'Admin')
             <h2>Add Word to Course: {{ $course->title }}</h2>
 
             <form method="POST" action="{{ route('course-words.store', $course) }}">
