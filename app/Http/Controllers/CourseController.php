@@ -42,7 +42,7 @@ class CourseController extends Controller
             'course_id' => $course->id,
         ]);
 
-        return redirect()->route('course.index');
+        return redirect()->route('course.index')->with('success', 'Kurs został pomyślnie utworzony!');
     }
 
     public function edit(Course $course)
@@ -59,13 +59,13 @@ class CourseController extends Controller
 
         $course->update($request->all());
 
-        return redirect()->route('course.index');
+        return redirect()->route('course.index')->with('success', 'Kurs został pomyślnie zaktualizowany!');
     }
 
     public function destroy(Course $course)
     {
         $course->delete();
 
-        return redirect()->route('course.index');
+        return redirect()->route('course.index')->with('success', 'Kurs został pomyślnie usunięty.');
     }
 }

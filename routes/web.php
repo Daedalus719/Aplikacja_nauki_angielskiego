@@ -9,20 +9,19 @@ use App\Http\Controllers\CourseWordController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
-// Dashboard as default, accessible without login
+
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
-// Dictionary accessible without login
-Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
-Route::match(['get', 'post'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
 
-// Courses and Tests index and show accessible without login
+Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
+Route::match(['get'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
+
 Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
 Route::get('/course/{course}', [CourseWordController::class, 'show'])->name('course-words.show');
 Route::get('/tests', [TestController::class, 'index'])->name('tests.index');
 Route::get('/tests/{test}', [TestController::class, 'show'])->name('tests.show');
 
-// The following routes require authentication
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -32,19 +31,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/words/{id}', [WordController::class, 'show'])->name('words.show');
     Route::get('/words', [WordController::class, 'index'])->name('words.index');
 
-    // For authenticated users to add words to courses
-    Route::post('/course/{course}', [CourseWordController::class, 'store'])->name('course-words.store');
     Route::get('/search-word', [CourseWordController::class, 'searchWord'])->name('course-words.search');
 });
 
-// Routes that require Admin privileges
 Route::middleware(['auth', 'Admin'])->group(function () {
     Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
     Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
     Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
 
-    Route::get('/course/create', [CourseController::class, 'create'])->name('course.create');
+    Route::match(['post'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
+
+    Route::get('/courses/create', [CourseController::class, 'create'])->name('course.create');
     Route::post('/course', [CourseController::class, 'store'])->name('course.store');
+    Route::post('/course/{course}', [CourseWordController::class, 'store'])->name('course-words.store');
     Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit');
     Route::patch('/course/{course}', [CourseController::class, 'update'])->name('course.update');
     Route::delete('/course/{course}', [CourseController::class, 'destroy'])->name('course.destroy');

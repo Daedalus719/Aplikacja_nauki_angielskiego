@@ -24,7 +24,7 @@ class CourseWordController extends Controller
         $course->words()->attach($request->word_id);
 
         return redirect()->route('course-words.show', $course)
-                         ->with('success', 'Word added to the course!');
+                         ->with('success', 'Słowo zostało pomyslnie dodane do kursu!');
     }
 
     public function searchWord(Request $request)

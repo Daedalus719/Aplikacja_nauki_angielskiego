@@ -25,10 +25,10 @@ class WordController extends Controller
                 'word_type' => $request->word_type,
             ]);
 
-            return redirect()->route('dictionary')->with('success', 'Wpis został dodany do bazy!');
+            return redirect()->route('dictionary')->with('success', 'Wpis został pomyślnie dodany do bazy!');
         }
 
-        $words = Word::all();
+        $words = Word::orderBy('english_word', 'asc')->get();
 
         return view('dictionary', compact('words'));
     }
@@ -73,13 +73,13 @@ class WordController extends Controller
     {
         $word->update($request->only(['english_word', 'pronunciation', 'word_type', 'polish_word']));
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Słowo zostało pomyślnie zaktualizowane.']);
     }
 
     public function destroy(Word $word)
     {
         $word->delete();
-        return redirect()->route('dictionary')->with('success', 'Słowo usunięte pomyślnie.');
+        return redirect()->route('dictionary')->with('success', 'Słowo zostało pomyślnie usunięte z bazy.');
     }
 
 }

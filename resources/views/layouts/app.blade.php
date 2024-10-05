@@ -22,6 +22,27 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
+
+            <div id="message-box" class="fixed bottom-5 right-5 z-50 w-96">
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+            </div>
+
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow">
@@ -44,6 +65,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alert').fadeTo(500, 0).slideUp(500, function() {
+                    $(this).remove();
+                });
+            }, 2000);
+        });
+    </script>
 
     </body>
 </html>

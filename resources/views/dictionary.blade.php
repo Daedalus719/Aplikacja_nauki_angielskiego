@@ -8,12 +8,6 @@
     <!--<div class="container mt-5">-->
     <div class="container-fluid d-flex flex-column" style="height: 100vh;">
 
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
 
         @if (Auth::check() && Auth::user()->usertype === 'Admin')
             <div class="mb-3">
