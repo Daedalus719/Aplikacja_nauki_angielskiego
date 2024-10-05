@@ -28,10 +28,23 @@ class WordController extends Controller
             return redirect()->route('dictionary')->with('success', 'Wpis został pomyślnie dodany do bazy!');
         }
 
-        $words = Word::orderBy('english_word', 'asc')->get();
+        $words = Word::orderBy('english_word', 'asc')->paginate(60);
 
         return view('dictionary', compact('words'));
     }
+    public function loadMore(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = 60;
+
+        $words = Word::orderBy('english_word', 'asc')
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
+
+        return response()->json($words);
+    }
+
 
     public function search(Request $request)
     {

@@ -29,6 +29,7 @@
                             <option value="Adjective (Przymiotnik)">Przymiotnik</option>
                             <option value="Adverb (Przysłowek)">Przysłowek</option>
                             <option value="Pronoun (Zaimek)">Zaimek</option>
+                            <option value="Proverb (Przysłowie)">Przysłowie</option>
                             <option value="Preposition (Przyimek)">Przyimek</option>
                             <option value="Conjunction (Spójnik)">Spójnik</option>
                             <option value="Interjection (Wykrzyknik)">Wykrzyknik</option>
@@ -94,6 +95,7 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 
 

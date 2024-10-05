@@ -75,6 +75,9 @@
             }, 2000);
         });
     </script>
+    <script>
+        const userType = "{{ Auth::check() && Auth::user()->usertype === 'Admin' ? 'Admin' : 'User' }}";
+    </script>
 
     </body>
 </html>

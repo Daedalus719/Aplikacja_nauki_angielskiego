@@ -15,6 +15,8 @@ Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
 Route::match(['get'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
+Route::get('/words/load-more', [WordController::class, 'loadMore'])->name('words.load-more');
+
 
 Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
 Route::get('/course/{course}', [CourseWordController::class, 'show'])->name('course-words.show');
