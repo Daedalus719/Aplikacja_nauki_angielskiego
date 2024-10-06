@@ -23,3 +23,35 @@
     border: 2px solid #007bff;
     background-color: #f9f9f9;
 }
+
+
+
+.middle-nav {
+    position: relative;
+    background-color: #ffffff;
+    padding: 0.5rem 2rem;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+    border: 2px solid #0061f3;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 6px rgba(112, 109, 109, 0.959);
+}
+
+.middle-nav-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.middle-nav a:hover {
+    color: #878b8f;
+}
+
+@media (max-width: 768px) {
+    .middle-nav {
+        clip-path: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0.5rem 1rem;
+    }
+}

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header"></x-slot>
+    @section('title', 'Kurs dla: {{ $course->title }}')
 
     <div class="container">
         @if (Auth::check() && Auth::user()->usertype === 'Admin')

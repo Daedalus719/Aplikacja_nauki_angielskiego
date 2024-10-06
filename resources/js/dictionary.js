@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let offset = 60;
     let isLoading = false;
 
-    // --- Search Input Logic ---
     searchInput.addEventListener('input', function () {
         const query = this.value;
 
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // --- Function to load more words (for infinite scrolling) ---
     function loadMoreWords() {
         if (isLoading) return;
         isLoading = true;
@@ -71,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // --- Function to create a word row dynamically ---
     function createWordRow(word) {
         const row = document.createElement('tr');
         row.id = `word-row-${word.id}`;
@@ -84,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return row;
     }
 
-    // --- Function to render action buttons based on user type ---
     function renderActionButtons(wordId) {
         if (userType === 'Admin') {
             return `
@@ -96,11 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz usunąć to słowo?')">Usuń</button>
                 </form>`;
         } else {
-            return '';  // No buttons for non-admin users
+            return '';
         }
     }
 
-    // --- Event delegation to handle Edit and Save button clicks for all rows (static + dynamic) ---
     wordTableBody.addEventListener('click', function (e) {
         if (e.target.classList.contains('edit-btn')) {
             const wordId = e.target.getAttribute('data-word-id');
@@ -115,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // --- Function to toggle edit mode for a word row ---
     function toggleEditMode(row, isEditing) {
         const wordId = row.id.split('-').pop();
         const englishWord = row.querySelector('.english-word').textContent.trim();
@@ -124,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const polishWord = row.querySelector('.polish-word').textContent.trim();
 
         if (isEditing) {
-            // Switch to edit mode
             row.classList.add('editable-row');
             row.querySelector('.english-word').innerHTML = `<input type="text" class="form-control" value="${englishWord}" id="english-word-${wordId}">`;
             row.querySelector('.pronunciation').innerHTML = `<input type="text" class="form-control" value="${pronunciation}" id="pronunciation-${wordId}">`;
@@ -146,26 +139,22 @@ document.addEventListener('DOMContentLoaded', function () {
             row.querySelector('.edit-btn').style.display = 'none';
             row.querySelector('.save-btn').style.display = 'inline';
         } else {
-            // Switch back to non-edit mode (static row)
             const newEnglishWord = document.getElementById(`english-word-${wordId}`).value;
             const newPronunciation = document.getElementById(`pronunciation-${wordId}`).value;
             const newWordType = document.getElementById(`word-type-${wordId}`).value;
             const newPolishWord = document.getElementById(`polish-word-${wordId}`).value;
 
-            // Directly update the textContent for each field with new values
             row.querySelector('.english-word').textContent = newEnglishWord;
             row.querySelector('.pronunciation').textContent = newPronunciation;
             row.querySelector('.word-type').textContent = capitalize(newWordType);
             row.querySelector('.polish-word').textContent = newPolishWord;
 
-            // Reset row from editable to non-editable
             row.classList.remove('editable-row');
             row.querySelector('.edit-btn').style.display = 'inline';
             row.querySelector('.save-btn').style.display = 'none';
         }
     }
 
-    // --- Function to save word changes ---
     function saveWordChanges(row, wordId) {
         const englishWord = document.getElementById(`english-word-${wordId}`).value;
         const pronunciation = document.getElementById(`pronunciation-${wordId}`).value;
@@ -191,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    // Toggle back to non-edit mode after saving
                     toggleEditMode(row, false);
                 } else {
                     alert('Error saving the word.');
@@ -202,16 +190,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-
-
-    // --- Scroll event listener ---
     window.addEventListener('scroll', function () {
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
             loadMoreWords();
         }
     });
 
-    // --- Utility function to capitalize the first letter of a string ---
     function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }

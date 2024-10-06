@@ -1,10 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Słownik') }}
-        </h2>
-    </x-slot>
-
+    @section('title', 'Słownik')
     <!--<div class="container mt-5">-->
     <div class="container-fluid d-flex flex-column" style="height: 100vh;">
 
