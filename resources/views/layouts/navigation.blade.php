@@ -82,10 +82,10 @@
                         {{ __('Słownictwo') }}
                     </x-nav-link>
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
-                        {{ __('Słownictwo') }}
+                        {{ __('Czasowniki nieregularne') }}
                     </x-nav-link>
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
-                        {{ __('Słownictwo') }}
+                        {{ __('Reguły używania czasów') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -100,13 +100,13 @@
                 <h1 class="text-xl font-bold text-gray-900">Praktyka</h1>
                 <div class="flex space-x-4">
                     <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
-                        {{ __('Testy') }}
+                        {{ __('Testy ze słownictwa') }}
                     </x-nav-link>
                     <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
-                        {{ __('Testy') }}
+                        {{ __('Zadania z czasownikami nieregularnymi') }}
                     </x-nav-link>
                     <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
-                        {{ __('Testy') }}
+                        {{ __('Zadania z użyciem czasów') }}
                     </x-nav-link>
                 </div>
             </div>
