@@ -8,21 +8,40 @@
             <div class="mb-3">
                 <form action="{{ route('dictionary') }}" method="POST">
                     @csrf
+
+
+
+                    <!--Normal ENGLISH WAORD FORM FIELD (RESTORE LATER!!!)
                     <div class="mb-3">
                         <label for="english_word" class="form-label">Słowo Angielskie:</label>
                         <input type="text" class="form-control" id="english_word" name="english_word" required>
+                    </div>-->
+
+
+                    <!--Add word filed with serach bar (FOR LATER REMOVAL!!!)-->
+                    <div class="mb-3 position-relative">
+                        <label for="english_word" class="form-label">Słowo Angielskie:</label>
+                        <input type="text" class="form-control" id="english_word" name="english_word" required
+                            autocomplete="off">
+                        <!-- This will display the suggestions for the English word input field -->
+                        <ul id="englishWordSuggestions" class="list-group position-absolute" style="z-index: 1000;">
+                        </ul>
                     </div>
-                    <div class="mb-3">
+
+
+
+                    <!--<div class="mb-3">
                         <label for="pronunciation" class="form-label">Angielska Wymowa</label>
                         <input type="text" class="form-control" id="pronunciation" name="pronunciation">
-                    </div>
+                    </div>-->
+
                     <div class="mb-3">
                         <label for="word_type" class="form-label">Typ słowa</label>
                         <select class="form-control" id="word_type" name="word_type" required>
                             <option value="Noun (Rzeczownik)">Rzeczownik</option>
                             <option value="Verb (Czasownik)">Czasownik</option>
                             <option value="Adjective (Przymiotnik)">Przymiotnik</option>
-                            <option value="Adverb (Przysłowek)">Przysłowek</option>
+                            <option value="Adverb (Przysłówek)">Przysłówek</option>
                             <option value="Pronoun (Zaimek)">Zaimek</option>
                             <option value="Proverb (Przysłowie)">Przysłowie</option>
                             <option value="Preposition (Przyimek)">Przyimek</option>
@@ -66,7 +85,13 @@
                     @foreach ($words as $word)
                         <tr id="word-row-{{ $word->id }}">
                             <td class="english-word">{{ $word->english_word }}</td>
-                            <td class="pronunciation">{{ $word->pronunciation }}</td>
+                            <td class="pronunciation">
+                                {{ $word->pronunciation }}
+                                <button class="btn btn-sm btn-outline-info tts-btn"
+                                    data-english-word="{{ $word->english_word }}">
+                                    🔊
+                                </button>
+                            </td>
                             <td class="word-type">{{ ucfirst($word->word_type) }}</td>
                             <td class="polish-word">{{ $word->polish_word }}</td>
                             @if (Auth::check() && Auth::user()->usertype === 'Admin')
