@@ -10,6 +10,8 @@ export default defineConfig({
                 'resources/js/test.js',
                 'resources/js/dictionary.js',
                 'resources/js/admin.js',
+                'resources/js/irregular-verbs.js',
+                'resources/js/verb-task.js',
             ],
             refresh: true,
         }),

@@ -6,22 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('irregular_verbs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('irregular_verbs');
-    }
+    public function up()
+{
+    Schema::create('irregular_verbs', function (Blueprint $table) {
+        $table->id();
+        $table->string('verb_1st_form');
+        $table->string('verb_2nd_form');
+        $table->string('verb_3rd_form');
+        $table->string('polish_translation');
+        $table->timestamps();
+    });
+}
+
+public function down()
+{
+    Schema::dropIfExists('irregular_verbs');
+}
+
 };

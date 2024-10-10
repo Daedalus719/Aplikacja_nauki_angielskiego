@@ -81,7 +81,7 @@
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
                         {{ __('Słownictwo') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
+                    <x-nav-link :href="route('irregular-verbs.index')" :active="request()->routeIs('irregular-verbs.index')">
                         {{ __('Czasowniki nieregularne') }}
                     </x-nav-link>
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
@@ -102,7 +102,7 @@
                     <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
                         {{ __('Testy ze słownictwa') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
+                    <x-nav-link :href="route('irregular-verbs.tasks')" :active="request()->routeIs('irregular-verbs.tasks')">
                         {{ __('Zadania z czasownikami nieregularnymi') }}
                     </x-nav-link>
                     <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">

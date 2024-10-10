@@ -7,6 +7,7 @@ use App\Http\Controllers\WordController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CourseWordController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\IrregularVerbController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +23,10 @@ Route::get('/courses', [CourseController::class, 'index'])->name('course.index')
 Route::get('/course/{course}', [CourseWordController::class, 'show'])->name('course-words.show');
 Route::get('/tests', [TestController::class, 'index'])->name('tests.index');
 Route::get('/tests/{test}', [TestController::class, 'show'])->name('tests.show');
+
+Route::get('/irregular-verbs', [IrregularVerbController::class, 'index'])->name('irregular-verbs.index');
+Route::get('/irregular-verbs/tasks', [IrregularVerbController::class, 'showTaskPage'])->name('irregular-verbs.tasks');
+Route::get('/irregular-verbs/random', [IrregularVerbController::class, 'getRandomVerbs']);
 
 
 Route::middleware('auth')->group(function () {
@@ -56,8 +61,9 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::put('/tests/{test}', [TestController::class, 'update'])->name('tests.update');
     Route::delete('/tests/{test}', [TestController::class, 'destroy'])->name('tests.destroy');
 
-    Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel');
-    Route::post('/admin/user/update/{id}', [AdminController::class, 'updateUser'])->name('admin.user.update');
+    Route::post('/irregular-verbs', [IrregularVerbController::class, 'store'])->name('irregular-verbs.store');
+    Route::put('/irregular-verbs/{id}', [IrregularVerbController::class, 'update'])->name('irregular-verbs.update');
+    Route::delete('/irregular-verbs/{id}', [IrregularVerbController::class, 'destroy'])->name('irregular-verbs.destroy');
 });
 
 
@@ -69,4 +75,4 @@ Route::middleware(['auth', 'Admin'])->group(function () {
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
