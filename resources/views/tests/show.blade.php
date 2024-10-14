@@ -20,12 +20,13 @@
 
         <div id="missingLettersContent" class="test-content" style="display:none;">
             <h3>Test Gramatyczny</h3>
-            <p>Wpisz brakującą spółgłoskę w poniższych słowach:</p>
+            <p>Wpisz brakującą spółgłoskę w poniższych wyrażeniach:</p>
             <form id="missingLettersForm" class="mt-2">
                 <!-- inserted by js-->
             </form>
-            <button type="button" class="btn btn-primary mt-3" id="checkMissingLetters">Sprawdź</button>
-            <button type="button" class="btn btn-warning mt-3" id="tryAgainMissingLetters">Spróbuj jeszcze raz</button>
+            <div id="resultMessage" class="mt-3" style="display:none;"></div>
+            <button type="button" class="btn btn-success mt-3" id="checkMissingLetters">Sprawdź</button>
+            <button type="button" class="btn btn-primary mt-3" id="tryAgainMissingLetters">Spróbuj ponownie</button>
             <button type="button" class="btn btn-secondary mt-3 back-btn">Wróć do wyboru testów</button>
         </div>
 
@@ -35,8 +36,9 @@
             <form id="translationForm" class="mt-2">
                 <!-- inserted by js-->
             </form>
-            <button type="button" class="btn btn-primary mt-3" id="checkTranslation">Sprawdź</button>
-            <button type="button" class="btn btn-warning mt-3" id="tryAgainTranslation">Spróbuj jeszcze raz</button>
+            <div id="translationResultMessage" style="display:none;"></div>
+            <button type="button" class="btn btn-success mt-3" id="checkTranslation">Sprawdź</button>
+            <button type="button" class="btn btn-primary mt-3" id="tryAgainTranslation">Spróbuj ponownie</button>
             <button type="button" class="btn btn-secondary mt-3 back-btn">Wróć do wyboru testów</button>
         </div>
     </div>

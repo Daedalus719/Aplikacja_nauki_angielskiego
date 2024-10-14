@@ -47,6 +47,21 @@
     color: #878b8f;
 }
 
+
+#testCards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.test-card {
+    margin-bottom: 20px;
+    flex: 0 0 48%;
+}
+
+
+
+
 @media (max-width: 768px) {
     .middle-nav {
         clip-path: none;
@@ -55,3 +70,5 @@
         padding: 0.5rem 1rem;
     }
 }
+
+

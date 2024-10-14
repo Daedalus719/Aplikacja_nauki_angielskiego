@@ -8,6 +8,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\CourseWordController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\IrregularVerbController;
+use App\Http\Controllers\SentenceRuleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,6 +29,14 @@ Route::get('/irregular-verbs', [IrregularVerbController::class, 'index'])->name(
 Route::get('/irregular-verbs/tasks', [IrregularVerbController::class, 'showTaskPage'])->name('irregular-verbs.tasks');
 Route::get('/irregular-verbs/random', [IrregularVerbController::class, 'getRandomVerbs']);
 
+Route::get('/sentence-rules', [SentenceRuleController::class, 'index'])->name('sentence-rules.index');
+Route::get('/sentence-rules/{section}', [SentenceRuleController::class, 'show'])->name('sentence-rules.show');
+
+
+
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,8 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/search-words', [WordController::class, 'search'])->name('words.search');
     Route::get('/words/{id}', [WordController::class, 'show'])->name('words.show');
     Route::get('/words', [WordController::class, 'index'])->name('words.index');
-
-    Route::get('/search-word', [CourseWordController::class, 'searchWord'])->name('course-words.search');
 });
 
 Route::middleware(['auth', 'Admin'])->group(function () {
@@ -55,6 +62,8 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::patch('/course/{course}', [CourseController::class, 'update'])->name('course.update');
     Route::delete('/course/{course}', [CourseController::class, 'destroy'])->name('course.destroy');
 
+    Route::get('/search-word', [CourseWordController::class, 'searchWord'])->name('course-words.search');
+
     Route::get('/tests/create', [TestController::class, 'create'])->name('tests.create');
     Route::post('/tests', [TestController::class, 'store'])->name('tests.store');
     Route::get('/tests/{test}/edit', [TestController::class, 'edit'])->name('tests.edit');
@@ -64,6 +73,11 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::post('/irregular-verbs', [IrregularVerbController::class, 'store'])->name('irregular-verbs.store');
     Route::put('/irregular-verbs/{id}', [IrregularVerbController::class, 'update'])->name('irregular-verbs.update');
     Route::delete('/irregular-verbs/{id}', [IrregularVerbController::class, 'destroy'])->name('irregular-verbs.destroy');
+
+    Route::post('/sentence-rules/store-section', [SentenceRuleController::class, 'storeSection'])->name('sentence-rules.store-section');
+    Route::get('/sentence-rules/addPage', [SentenceRuleController::class, 'addPage'])->name('sentence-rules.addPage');
+    Route::post('/sentence-rules/store-rule', [SentenceRuleController::class, 'storeRule'])->name('sentence-rules.store-rule');
+
 });
 
 

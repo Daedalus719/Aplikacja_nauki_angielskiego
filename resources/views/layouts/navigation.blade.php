@@ -84,15 +84,17 @@
                     <x-nav-link :href="route('irregular-verbs.index')" :active="request()->routeIs('irregular-verbs.index')">
                         {{ __('Czasowniki nieregularne') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
-                        {{ __('Reguły używania czasów') }}
+                    <x-nav-link :href="route('sentence-rules.index')" :active="request()->routeIs('sentence-rules.index')">
+                        {{ __('Reguły tworzenia zdań') }}
                     </x-nav-link>
                 </div>
             </div>
 
 
             <div class="flex justify-center">
-
+                <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
+                    {{ __('Gry') }}
+                </x-nav-link>
             </div>
 
 

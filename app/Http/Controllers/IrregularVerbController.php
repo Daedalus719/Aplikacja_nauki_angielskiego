@@ -29,10 +29,11 @@ class IrregularVerbController extends Controller
             'polish_translation' => 'required|string|max:255',
         ]);
 
-        IrregularVerb::create($request->all());
+        $verb = IrregularVerb::create($request->all());
 
         return redirect()->route('irregular-verbs.index')->with('success', 'Wpis został z powodzeniem dodany do bazy!');
     }
+
 
     public function update(Request $request, $id)
     {
@@ -57,6 +58,6 @@ class IrregularVerbController extends Controller
         $verb = IrregularVerb::findOrFail($id);
         $verb->delete();
 
-        return response()->json(['message' => 'Wpis został z powodzeniem usunięty z bazy!']);
+        return redirect()->route('irregular-verbs.index')->with('success', 'Wpis został z powodzeniem usunięty z bazy!');
     }
 }

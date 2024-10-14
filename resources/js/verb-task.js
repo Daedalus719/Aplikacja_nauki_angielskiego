@@ -1,42 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const verbs = window.verbData; // Get verbs data from global window object
+    const verbs = window.verbData;
     const numberOfWords = 5;
-    let selectedVerbs = [];
 
-    function generateVerbs() {
-        selectedVerbs = [];
-        let usedIndices = [];
-
+    function getRandomVerbs() {
+        const selectedVerbs = [];
         const tableBody = document.getElementById('verbsTableBody');
         tableBody.innerHTML = '';
 
-        for (let i = 0; i < numberOfWords; i++) {
-            let randomIndex;
-            do {
-                randomIndex = Math.floor(Math.random() * verbs.length);
-            } while (usedIndices.includes(randomIndex));
-            usedIndices.push(randomIndex);
-
+        while (selectedVerbs.length < numberOfWords) {
+            const randomIndex = Math.floor(Math.random() * verbs.length);
             const verb = verbs[randomIndex];
-            selectedVerbs.push(verb);
 
-            // Change 'form_1', 'form_2', 'form_3' to the actual field names from your $verbs data
-            const givenFormIndex = Math.floor(Math.random() * 3) + 1;
+            if (!selectedVerbs.includes(verb)) {
+                selectedVerbs.push(verb);
 
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>
-                    ${givenFormIndex === 1 ? `<strong>${verb.form_1}</strong>` : `<input type="text" class="form-control" data-correct="${verb.form_1}" placeholder="1st form">`}
-                </td>
-                <td>
-                    ${givenFormIndex === 2 ? `<strong>${verb.form_2}</strong>` : `<input type="text" class="form-control" data-correct="${verb.form_2}" placeholder="2nd form">`}
-                </td>
-                <td>
-                    ${givenFormIndex === 3 ? `<strong>${verb.form_3}</strong>` : `<input type="text" class="form-control" data-correct="${verb.form_3}" placeholder="3rd form">`}
-                </td>
-                <td>${verb.polish_translation}</td>
-            `;
-            tableBody.appendChild(row);
+                const givenFormIndex = Math.floor(Math.random() * 3) + 1;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        ${givenFormIndex === 1 ? `<strong>${verb.verb_1st_form}</strong>` : `<input type="text" class="form-control" data-correct="${verb.verb_1st_form}" placeholder="I forma">`}
+                    </td>
+                    <td>
+                        ${givenFormIndex === 2 ? `<strong>${verb.verb_2nd_form}</strong>` : `<input type="text" class="form-control" data-correct="${verb.verb_2nd_form}" placeholder="II forma">`}
+                    </td>
+                    <td>
+                        ${givenFormIndex === 3 ? `<strong>${verb.verb_3rd_form}</strong>` : `<input type="text" class="form-control" data-correct="${verb.verb_3rd_form}" placeholder="III forma">`}
+                    </td>
+                    <td>${verb.polish_translation}</td>
+                `;
+                tableBody.appendChild(row);
+            }
         }
     }
 
@@ -46,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let totalCount = inputs.length;
 
         inputs.forEach(input => {
-            const correctAnswer = input.getAttribute('data-correct').toLowerCase();
+            const correctAnswers = input.getAttribute('data-correct').toLowerCase().split(', ');
             const userAnswer = input.value.trim().toLowerCase();
 
             input.classList.remove('is-valid', 'is-invalid');
@@ -55,25 +49,47 @@ document.addEventListener('DOMContentLoaded', function () {
                 feedback.remove();
             }
 
-            if (userAnswer !== "" && userAnswer === correctAnswer) {
+            if (userAnswer !== "" && correctAnswers.includes(userAnswer)) {
                 correctCount++;
                 input.classList.add('is-valid');
             } else {
                 input.classList.add('is-invalid');
-                if (userAnswer !== correctAnswer) {
+                if (!correctAnswers.includes(userAnswer)) {
                     let correctFeedback = document.createElement('div');
                     correctFeedback.classList.add('text-danger');
-                    correctFeedback.textContent = `Correct: ${correctAnswer}`;
+                    correctFeedback.textContent = `Poprawna odpowiedź: ${correctAnswers.join(', ')}`;
                     input.parentNode.appendChild(correctFeedback);
                 }
             }
         });
 
-        alert(`You got ${correctCount} out of ${totalCount} correct!`);
+        const resultMessage = document.getElementById('resultMessage');
+        resultMessage.style.display = 'block';
+
+        if (correctCount < totalCount) {
+            resultMessage.textContent = `Uzyskałeś ${correctCount} z ${totalCount} poprawnych odpowiedzi!`;
+            resultMessage.style.color = 'red';
+            resultMessage.style.fontWeight = 'bold';
+        } else {
+            resultMessage.textContent = `Gratulacje! Uzyskałeś ${correctCount} z ${totalCount} poprawnych odpowiedzi!`;
+            resultMessage.style.color = 'green';
+            resultMessage.style.fontWeight = 'bold';
+        }
     }
 
-    document.getElementById('checkAnswersBtn').addEventListener('click', checkAnswers);
-    document.getElementById('tryAgainBtn').addEventListener('click', generateVerbs);
+    document.getElementById('tryAgainBtn').addEventListener('click', function() {
+        const inputs = document.querySelectorAll('#verbsTableBody input[type="text"]');
+        inputs.forEach(input => {
+            input.value = '';
+            input.classList.remove('is-valid', 'is-invalid');
+        });
 
-    generateVerbs();
+        const resultMessage = document.getElementById('resultMessage');
+        resultMessage.style.display = 'none';
+    });
+
+    document.getElementById('checkAnswersBtn').addEventListener('click', checkAnswers);
+    document.getElementById('tryAgainBtn').addEventListener('click', getRandomVerbs);
+
+    getRandomVerbs();
 });

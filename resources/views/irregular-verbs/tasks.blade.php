@@ -7,27 +7,30 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Verb (1st form)</th>
-                        <th>Verb (2nd form)</th>
-                        <th>Verb (3rd form)</th>
-                        <th>Polish Translation</th>
+                        <th>Czasownik (I forma)</th>
+                        <th>Czasownik (II forma)</th>
+                        <th>Czasownik (III forma)</th>
+                        <th>Polskie tłumaczenie</th>
                     </tr>
                 </thead>
                 <tbody id="verbsTableBody">
-                    <!-- JavaScript will dynamically generate rows here -->
+                    <!-- js inserted -->
                 </tbody>
             </table>
-            <button type="button" class="btn btn-primary mt-3" id="checkAnswersBtn">Check</button>
-            <button type="button" class="btn btn-secondary mt-3" id="tryAgainBtn">Try Again</button>
+            <div id="resultMessage" class="mt-3" style="display:none;"></div>
+            <button type="button" class="btn btn-success mt-3" id="checkAnswersBtn">Sprawdź</button>
+            <button type="button" class="btn btn-secondary mt-3" id="tryAgainBtn">Spróbuj ponownie dla tych samych wyrażeń</button>
+            <button type="button" class="btn btn-info mt-3 ms-2" id="refreshPageBtn">Spróbuj ponownie dla innych wyrażeń</button>
         </form>
     </div>
-
-    <pre>{{ json_encode($verbs, JSON_PRETTY_PRINT) }}</pre>
-
 
 
     <script>
         window.verbData = @json($verbs);
+
+        document.getElementById('refreshPageBtn').addEventListener('click', function () {
+            location.reload();
+        });
     </script>
 
 
