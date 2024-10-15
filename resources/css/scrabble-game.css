@@ -1,0 +1,53 @@
+.scrabble-game {
+    background-color: #f5f6fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.score-container {
+    font-size: 1rem;
+    background-color: #1B9CFC;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: white;
+}
+
+.letter {
+    font-size: 2rem;
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    background-color: #FC427B;
+    color: rgb(20, 20, 20);
+    border-radius: 5px;
+}
+
+#guess-input {
+    font-size: 1.2rem;
+    padding: 10px;
+    border: 2px solid #1B9CFC;
+}
+
+.btn {
+    font-size: 1.1rem;
+    padding: 10px 15px;
+}
+
+.alert {
+    font-size: 1rem;
+    padding: 10px;
+}
+
+#game-result {
+    display: none;
+    margin-top: 20px;
+}
+
+.list-group-item {
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.checkbox-group div {
+    margin-bottom: 5px;
+}

@@ -1,24 +1,27 @@
 <x-app-layout>
-    @section('title', 'Kurs dla: {{ $course->title }}')
+    @section('title', 'Kurs dla: ' . $course->title)
 
     <div class="container">
+
+        <a href="{{ route('course.index') }}" class="btn btn-secondary mb-3 mt-3">Przejdź do wyboru kursów</a>
+
         @if (Auth::check() && Auth::user()->usertype === 'Admin')
-            <h2>Add Word to Course: {{ $course->title }}</h2>
+            <h2>Dodaj słowo do Kursu: {{ $course->title }}</h2>
 
             <form method="POST" action="{{ route('course-words.store', $course) }}">
                 @csrf
                 <div class="mb-3">
-                    <label for="english_word" class="form-label">English Word</label>
+                    <label for="english_word" class="form-label">Zacznij wpisywać i wybierz angielskie słowo z listy</label>
                     <input type="text" class="form-control" id="english_word" name="english_word" autocomplete="off">
                     <input type="hidden" id="word_id" name="word_id">
                     <div id="suggestions" class="list-group"></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Add Word</button>
+                <button type="submit" class="btn btn-success mb-2">Dodaj słowo</button>
             </form>
         @endif
 
-        <h2>Course Words</h2>
+        <h2>Słownictwo dla tego kursu:</h2>
         <ul class="list-group">
             @foreach ($courseWords as $word)
                 <li class="list-group-item">

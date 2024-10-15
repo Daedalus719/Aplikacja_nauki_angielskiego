@@ -9,12 +9,10 @@ class Section extends Model
 {
     use HasFactory;
 
-    protected $table = 'sections';
-
     protected $fillable = ['title'];
 
-    public function sentenceRules()
+    public function rules()
     {
-        return $this->hasMany(SentenceRule::class);
+        return $this->hasMany(Rule::class);
     }
 }

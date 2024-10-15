@@ -1,7 +1,11 @@
 <x-app-layout>
-    @section('title', 'Testy słownikowo - gramatyczne dla')
+    @section('title', 'Testy słownikowo - gramatyczne dla '  . $test->title)
+
 
     <div class="container mt-5">
+
+        <a href="{{ route('tests.index') }}" class="btn btn-secondary mb-3">Przejdź do wyboru kursów</a>
+
         <div class="row" id="testCards">
             <div class="col-md-6">
                 <div class="card test-card text-center p-4 bg-primary text-white" data-test="missing-letters">
@@ -11,7 +15,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="card test-card text-center p-4 bg-secondary text-white" data-test="translation-test">
+                <div class="card test-card text-center p-4 bg-primary text-white" data-test="translation-test">
                     <h3>Translation Test</h3>
                     <p>Przetłumacz polskie słowa na angielski</p>
                 </div>

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     if (!tableBody || !addVerbForm) {
-        console.error('Could not find table body or form element.');
+        console.error('Nie mażna znaleźć tabeli lub elementu form.');
         return;
     }
 
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     showMessage('error', 'Nie udało się dodać wpisu do bazy!');
                 }).catch(() => {
                     console.error('Unknown error occurred:', error);
-                    showMessage('error', 'Unexpected error occurred.');
+                    showMessage('error', 'Wystąpił niespodziewany błąd.');
                 });
             });
 

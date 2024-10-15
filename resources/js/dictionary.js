@@ -327,11 +327,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (result.success) {
                     toggleEditMode(row, false);
                 } else {
-                    alert('Error saving the word.');
+                    alert('Wystąpił błąd podczas zapisawanie słowa.');
                 }
             })
             .catch(error => {
-                console.error('Error saving word:', error);
+                console.error('Wystąpił błąd podczas zapisawanie słowa:', error);
             });
     }
 

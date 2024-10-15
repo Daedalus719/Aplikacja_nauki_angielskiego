@@ -24,7 +24,7 @@
                     <input type="text" class="form-control" id="polish_translation" name="polish_translation"
                         required>
                 </div>
-                <button type="submit" class="btn btn-primary">Dodaj Wpis</button>
+                <button type="submit" class="btn btn-success">Dodaj Wpis</button>
             </form>
         @endif
 

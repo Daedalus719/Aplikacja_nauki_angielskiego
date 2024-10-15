@@ -16,20 +16,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 .map((letter, index) => vowels.includes(letter.toLowerCase()) ? index : -1)
                 .filter(index => index !== -1);
 
-            if (indices.length > 1) {
-                let randomIndex = indices[Math.floor(Math.random() * indices.length)];
-                let correctLetter = letters[randomIndex];
-                letters[randomIndex] = `<input type="text" class="form-control d-inline-block w-auto" name="word[${word.id}]" maxlength="1" required>`;
-                let wordWithBlank = letters.join('');
+            let randomIndex = indices[Math.floor(Math.random() * indices.length)];
+            let correctLetter = letters[randomIndex];
+            letters[randomIndex] = `<input type="text" class="form-control d-inline-block w-auto" name="word[${word.id}]" maxlength="1" required>`;
+            let wordWithBlank = letters.join('');
 
-                form.innerHTML += `
+            form.innerHTML += `
                         <div class="mb-3">
                             <label class="form-label">${wordWithBlank} (${word.polish_word})</label>
                             <input type="hidden" name="correct_letter[${word.id}]" value="${correctLetter}">
                             <div class="correct-answer text-danger" style="display:none;">{Poprawna odpowiedź}: ${correctLetter}</div>
                         </div>
                     `;
-            }
         });
     }
 

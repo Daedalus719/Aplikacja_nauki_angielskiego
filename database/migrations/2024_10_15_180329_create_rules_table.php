@@ -4,20 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSentenceRulesTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
-        Schema::create('sentence_rules', function (Blueprint $table) {
+        Schema::create('rules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('section_id')->constrained()->onDelete('cascade');
-            $table->text('rule_text');
+            $table->text('content');
             $table->timestamps();
         });
     }
 
-    public function down()
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('sentence_rules');
+        Schema::dropIfExists('rules');
     }
-}
+};

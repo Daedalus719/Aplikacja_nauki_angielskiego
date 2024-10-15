@@ -1,21 +1,17 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Admin Panel') }}
-        </h2>
-    </x-slot>
+    @section('title', 'Panel Admina')
 
     <div class="container mt-5">
-        <h3>Registered Users</h3>
+        <h3>Zarejesrowani użytkownicy</h3>
 
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Nazwa Użytkownika</th>
                     <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
+                    <th>Rola</th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,10 +31,10 @@
                             </select>
                         </td>
                         <td>
-                            <button class="btn btn-info btn-sm edit-user" data-id="{{ $user->id }}">Edit</button>
-                            <button class="btn btn-success btn-sm save-user d-none" data-id="{{ $user->id }}">Save</button>
-                            <button class="btn btn-secondary btn-sm cancel-edit d-none" data-id="{{ $user->id }}">Cancel</button>
-                            <button class="btn btn-danger btn-sm delete-user" data-id="{{ $user->id }}">Delete</button>
+                            <button class="btn btn-info btn-sm edit-user" data-id="{{ $user->id }}">Edytuj</button>
+                            <button class="btn btn-success btn-sm save-user d-none" data-id="{{ $user->id }}">Zapisz</button>
+                            <button class="btn btn-secondary btn-sm cancel-edit d-none" data-id="{{ $user->id }}">Anuluj</button>
+                            <button class="btn btn-danger btn-sm delete-user" data-id="{{ $user->id }}">Usuń</button>
                         </td>
                     </tr>
                 @endforeach

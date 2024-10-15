@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SentenceRule extends Model
+class Rule extends Model
 {
     use HasFactory;
 
-    protected $table = 'sentence_rules';
-
-    protected $fillable = ['section_id', 'rule_text'];
+    protected $fillable = ['section_id', 'content'];
 
     public function section()
     {

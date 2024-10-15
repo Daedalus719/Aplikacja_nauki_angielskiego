@@ -41,7 +41,7 @@
                             <div class="card-body">
                                 <p class="card-text">{{ $test->description }}</p>
                                 <p class="card-text"><strong>Testy dla kursu:</strong> {{ $test->course->title }}</p>
-                                <a href="{{ route('tests.show', $test) }}" class="btn btn-primary">Przejdź do testów</a>
+                                <a href="{{ route('tests.show', $test->id) }}" class="btn btn-primary">Przejdź do testów</a>
                             </div>
                         </div>
                     </div>

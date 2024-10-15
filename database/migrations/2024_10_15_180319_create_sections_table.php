@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSectionsTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -15,8 +15,12 @@ class CreateSectionsTable extends Migration
         });
     }
 
-    public function down()
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('sections');
     }
-}
+};

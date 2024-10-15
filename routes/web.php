@@ -8,7 +8,8 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\CourseWordController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\IrregularVerbController;
-use App\Http\Controllers\SentenceRuleController;
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,11 +30,17 @@ Route::get('/irregular-verbs', [IrregularVerbController::class, 'index'])->name(
 Route::get('/irregular-verbs/tasks', [IrregularVerbController::class, 'showTaskPage'])->name('irregular-verbs.tasks');
 Route::get('/irregular-verbs/random', [IrregularVerbController::class, 'getRandomVerbs']);
 
-Route::get('/sentence-rules', [SentenceRuleController::class, 'index'])->name('sentence-rules.index');
-Route::get('/sentence-rules/{section}', [SentenceRuleController::class, 'show'])->name('sentence-rules.show');
+Route::get('/games', [GameController::class, 'index'])->name('games.index');
+Route::get('/games/translation', [GameController::class, 'translationGame'])->name('games.translation');
+Route::get('/games/random-words', [GameController::class, 'getRandomWords'])->name('games.randomWords');
+Route::get('/games/scrabble', [GameController::class, 'scrabble'])->name('games.scrabble');
+Route::post('/scrabble-words', [GameController::class, 'fetchScrabbleWords'])->name('scrabble.words');
 
+Route::get('/flashcards', [GameController::class, 'flashcards'])->name('games.flashcards');
+Route::get('/flashcards-test', [GameController::class, 'flashcardsTest'])->name('games.flashcards-test');
+Route::post('/check-answers', [GameController::class, 'checkAnswers']);
 
-
+Route::resource('sections', SectionController::class);
 
 
 
@@ -74,10 +81,10 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::put('/irregular-verbs/{id}', [IrregularVerbController::class, 'update'])->name('irregular-verbs.update');
     Route::delete('/irregular-verbs/{id}', [IrregularVerbController::class, 'destroy'])->name('irregular-verbs.destroy');
 
-    Route::post('/sentence-rules/store-section', [SentenceRuleController::class, 'storeSection'])->name('sentence-rules.store-section');
-    Route::get('/sentence-rules/addPage', [SentenceRuleController::class, 'addPage'])->name('sentence-rules.addPage');
-    Route::post('/sentence-rules/store-rule', [SentenceRuleController::class, 'storeRule'])->name('sentence-rules.store-rule');
-
+    Route::get('sections/create', [SectionController::class, 'create'])->name('sections.create');
+    Route::post('sections/{section}/add-rule', [SectionController::class, 'addRule'])->name('sections.addRule');
+    Route::patch('/rules/{id}', [SectionController::class, 'updateRule'])->name('rules.update');
+    Route::delete('/rules/{id}', [SectionController::class, 'deleteRule'])->name('rules.delete');
 });
 
 
