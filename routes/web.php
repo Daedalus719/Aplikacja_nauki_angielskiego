@@ -10,6 +10,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\IrregularVerbController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\SentenceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,6 +43,31 @@ Route::get('/flashcards-test', [GameController::class, 'flashcardsTest'])->name(
 Route::post('/check-answers', [GameController::class, 'checkAnswers']);
 
 Route::resource('sections', SectionController::class);
+Route::get('sections/tasks', [SectionController::class, 'tasks'])->name('sections.tasks');
+
+
+Route::get('/sentence_game', [SentenceController::class, 'index'])->name('sentence_game.index');
+Route::get('/sentence_game/{id}', [SentenceController::class, 'show'])->name('sentence_game.show');
+
+
+
+
+
+
+
+
+
+
+
+Route::prefix('tasks/{section_id}')->group(function () {
+    Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::put('/{id}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+});
+
 
 
 
@@ -85,6 +112,11 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::post('sections/{section}/add-rule', [SectionController::class, 'addRule'])->name('sections.addRule');
     Route::patch('/rules/{id}', [SectionController::class, 'updateRule'])->name('rules.update');
     Route::delete('/rules/{id}', [SectionController::class, 'deleteRule'])->name('rules.delete');
+
+    Route::post('/sentence_game/{section_id}/add-sentence', [SentenceController::class, 'addSentence'])->name('sentence_game.add-sentence');
+    Route::get('/sentence_game/{section}/sentences', [SentenceController::class, 'allSentences'])->name('sentence_game.all-sentences');
+    Route::post('/sentence_game/{sentence}/update', [SentenceController::class, 'updateSentence']);
+    Route::delete('/sentence_game/{sentence}/delete', [SentenceController::class, 'deleteSentence']);
 });
 
 

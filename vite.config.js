@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/scrabble-game.css',
+                'resources/css/sentence-play.css',
                 'resources/css/flashcards.css',
                 'resources/css/sections.css',
                 'resources/js/app.js',

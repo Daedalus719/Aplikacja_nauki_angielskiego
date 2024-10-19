@@ -15,4 +15,9 @@ class Section extends Model
     {
         return $this->hasMany(Rule::class);
     }
+
+    public function sentences()
+    {
+        return $this->hasMany(SentenceWordPuzzle::class, 'section_id');
+    }
 }

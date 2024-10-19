@@ -14,10 +14,12 @@ class SectionController extends Controller
         return view('sections.index', compact('sections'));
     }
 
+
     public function create()
     {
         return view('sections.create');
     }
+
 
     public function store(Request $request)
     {
@@ -77,28 +79,27 @@ class SectionController extends Controller
     }
 
 
-public function updateRule(Request $request, $id)
-{
-    $rule = Rule::findOrFail($id);
-    $rule->content = $request->input('content');
-    $rule->save();
+    public function updateRule(Request $request, $id)
+    {
+        $rule = Rule::findOrFail($id);
+        $rule->content = $request->input('content');
+        $rule->save();
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Reguła została z powodzeniem zaktualizowana!',
-        'content' => $rule->content
-    ]);
-}
+        return response()->json([
+            'success' => true,
+            'message' => 'Reguła została z powodzeniem zaktualizowana!',
+            'content' => $rule->content
+        ]);
+    }
 
-public function deleteRule($id)
-{
-    $rule = Rule::findOrFail($id);
-    $rule->delete();
+    public function deleteRule($id)
+    {
+        $rule = Rule::findOrFail($id);
+        $rule->delete();
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Reguła została z powodzeniem usunięta!'
-    ]);
-}
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Reguła została z powodzeniem usunięta!'
+        ]);
+    }
 }

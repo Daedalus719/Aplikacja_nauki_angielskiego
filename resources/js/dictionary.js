@@ -156,6 +156,30 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });*/
 
+
+    let wordIdToDelete = null;
+
+    wordTableBody.addEventListener('click', function (e) {
+        if (e.target.closest('button') && e.target.closest('button').classList.contains('btn-outline-danger')) {
+            e.preventDefault();
+            const deleteButton = e.target.closest('button');
+            wordIdToDelete = deleteButton.closest('form').action.split('/').pop();
+
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+            deleteModal.show();
+        }
+    });
+
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    confirmDeleteBtn.addEventListener('click', function () {
+        if (wordIdToDelete) {
+            const form = document.querySelector(`form[action$="/${wordIdToDelete}"]`);
+            if (form) {
+                form.submit();
+            }
+        }
+    });
+
     function loadMoreWords() {
         if (isLoading) return;
         isLoading = true;

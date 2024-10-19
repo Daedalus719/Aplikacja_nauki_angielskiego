@@ -107,8 +107,8 @@
                     <x-nav-link :href="route('irregular-verbs.tasks')" :active="request()->routeIs('irregular-verbs.tasks')">
                         {{ __('Zadania z czasownikami nieregularnymi') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
-                        {{ __('Zadania z użyciem czasów') }}
+                    <x-nav-link :href="route('sentence_game.index')" :active="request()->routeIs('sentence_game.index')">
+                        {{ __('Zadania z reguł tworzenia zdań') }}
                     </x-nav-link>
                 </div>
             </div>

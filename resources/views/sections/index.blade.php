@@ -16,8 +16,8 @@
                     <li class="list-group-item">
                         <strong>{{ $section->title }}</strong>
                         <div class="mt-2">
-                            <a href="{{ route('sections.show', $section->id) }}" class="btn btn-sm btn-info">Przejrzyj
-                                reguły</a>
+                            <a href="{{ route('sections.show', $section->id) }}" class="btn btn-sm btn-info">Przejrzyj reguły</a>
+                            <a href="{{ route('tasks.index', $section->id) }}" class="btn btn-sm btn-primary">Przejdź do zadań</a>
                         </div>
                     </li>
                 @endforeach
