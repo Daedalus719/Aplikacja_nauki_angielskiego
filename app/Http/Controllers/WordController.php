@@ -23,6 +23,8 @@ class WordController extends Controller
                 'english_word' => $request->english_word,
                 'pronunciation' => $request->pronunciation,
                 'word_type' => $request->word_type,
+
+
             ]);
 
             return redirect()->route('dictionary')->with('success', 'Wpis został pomyślnie dodany do bazy!');
@@ -32,35 +34,12 @@ class WordController extends Controller
 
         return view('dictionary', compact('words'));
     }
-    public function loadMore(Request $request)
+    public function loadMoreWords(Request $request)
     {
         $offset = $request->input('offset', 0);
-        $limit = 60;
+        $limit = $request->input('limit', 60);
 
-        $words = Word::orderBy('english_word', 'asc')
-                    ->offset($offset)
-                    ->limit($limit)
-                    ->get();
-
-        return response()->json($words);
-    }
-
-
-    public function search(Request $request)
-    {
-        $query = $request->get('query');
-
-        $words = Word::where('english_word', 'LIKE', "%{$query}%")
-            ->orWhere('polish_word', 'LIKE', "%{$query}%")
-            ->get(['id', 'english_word', 'polish_word'])
-            ->map(function ($word) {
-                return [
-                    'id' => $word->id,
-                    'english_word' => $word->english_word,
-                    'polish_word' => $word->polish_word,
-                    'language' => strpos(strtolower($word->english_word), request()->get('query')) !== false ? 'english' : 'polish',
-                ];
-            });
+        $words = Word::orderBy('english_word', 'asc')->offset($offset)->limit($limit)->get();
 
         return response()->json($words);
     }
@@ -73,26 +52,41 @@ class WordController extends Controller
 
     public function index()
     {
-        $words = Word::all();
-        return view('words.index', compact('words'));
+        $words = Word::orderBy('english_word', 'asc')->get();
+        return response()->json($words);
     }
+
 
     public function edit(Word $word)
     {
         return view('words.edit', compact('word'));
     }
 
-    public function update(Request $request, Word $word)
+    public function updateWord(Request $request, $id)
     {
-        $word->update($request->only(['english_word', 'pronunciation', 'word_type', 'polish_word']));
+        $word = Word::find($id);
+        $word->update($request->all());
 
-        return response()->json(['success' => true, 'message' => 'Słowo zostało pomyślnie zaktualizowane.']);
+        return response()->json(['success' => true, 'word' => $word]);
     }
 
-    public function destroy(Word $word)
+    public function deleteWord($id)
     {
+        $word = Word::find($id);
         $word->delete();
-        return redirect()->route('dictionary')->with('success', 'Słowo zostało pomyślnie usunięte z bazy.');
+
+        return response()->json(['success' => true]);
     }
 
+
+    public function getSuggestions(Request $request)
+    {
+        $query = $request->input('query');
+
+        $words = Word::where('english_word', 'LIKE', '%' . $query . '%')
+            ->orWhere('polish_word', 'LIKE', '%' . $query . '%')
+            ->get(['english_word', 'polish_word']);
+
+        return response()->json($words);
+    }
 }

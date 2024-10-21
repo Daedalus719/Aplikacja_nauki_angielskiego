@@ -46,7 +46,7 @@
                 @foreach ($irregularVerbs as $verb)
                     <tr>
                         <td class="verb-id" style="display:none;">{{ $verb->id }}</td>
-                        <td><button class="btn btn-sm btn-primary tts-btn"
+                        <td><button class="btn btn-sm btn-outline-primary tts-btn"
                                 data-verb-id="{{ $verb->id }}">🔊</button></td>
                         <td class="verb-1st">{{ $verb->verb_1st_form }}</td>
                         <td class="verb-2nd">{{ $verb->verb_2nd_form }}</td>

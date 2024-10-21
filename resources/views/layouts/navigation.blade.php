@@ -1,13 +1,13 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Nav First Row-->
+        <!-- Nav First Row -->
         <div class="grid grid-cols-3 h-16">
             <div class="flex justify-start items-center">
                 <!-- -->
             </div>
 
-            <div class="middle-nav-container">
+            <div class="middle-nav-container" :class="{ 'hidden': open }">
                 <div class="middle-nav space-x-8 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Strona główna') }}
@@ -17,7 +17,6 @@
                     </x-nav-link>
                 </div>
             </div>
-
 
             <div class="flex justify-end items-center">
                 @if (Route::has('login'))
@@ -73,11 +72,10 @@
         </div>
 
         <!-- Nav second row -->
-        <div class="grid grid-cols-3 py-4">
-
-            <div class="flex flex-col items-start justify-center">
+        <div class="grid grid-cols-3 py-4" :class="{ 'hidden': open }">
+            <div class="flex flex-col items-center justify-center text-center">
                 <h1 class="text-xl font-bold text-gray-900">Teoria</h1>
-                <div class="flex space-x-4">
+                <div class="flex space-x-4 justify-center">
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
                         {{ __('Słownictwo') }}
                     </x-nav-link>
@@ -90,19 +88,17 @@
                 </div>
             </div>
 
-
-            <div class="flex justify-center">
+            <div class="flex justify-center items-center text-center">
                 <x-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')">
                     {{ __('Gry') }}
                 </x-nav-link>
             </div>
 
-
-            <div class="flex flex-col items-end justify-center">
+            <div class="flex flex-col items-center justify-center text-center">
                 <h1 class="text-xl font-bold text-gray-900">Praktyka</h1>
-                <div class="flex space-x-4">
+                <div class="flex space-x-4 justify-center">
                     <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
-                        {{ __('Testy ze słownictwa') }}
+                        {{ __('Testy z słownictwa') }}
                     </x-nav-link>
                     <x-nav-link :href="route('irregular-verbs.tasks')" :active="request()->routeIs('irregular-verbs.tasks')">
                         {{ __('Zadania z czasownikami nieregularnymi') }}
@@ -138,11 +134,28 @@
                 <x-responsive-nav-link :href="route('dictionary')" :active="request()->routeIs('dictionary')">
                     {{ __('Słownik') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')">
+                    {{ __('Gry') }}
+                </x-responsive-nav-link>
+                <h2>{{ __('Teoria') }}</h2>
                 <x-responsive-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
                     {{ __('Słownictwo') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('irregular-verbs.index')" :active="request()->routeIs('irregular-verbs.index')">
+                    {{ __('Czasowniki nieregularne') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('sections.index')" :active="request()->routeIs('sections.index')">
+                    {{ __('Reguły tworzenia zdań') }}
+                </x-responsive-nav-link>
+                <h2>{{ __('Praktyka') }}</h2>
                 <x-responsive-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
-                    {{ __('Testy') }}
+                    {{ __('Testy z słownictwa') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('irregular-verbs.tasks')" :active="request()->routeIs('irregular-verbs.tasks')">
+                    {{ __('Zadania z czasownikami nieregularnymi') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('sentence_game.index')" :active="request()->routeIs('sentence_game.index')">
+                    {{ __('Zadania z reguł tworzenia zdań') }}
                 </x-responsive-nav-link>
             </div>
 
@@ -171,4 +184,5 @@
                 </div>
             @endauth
         </div>
+    </div>
 </nav>

@@ -19,11 +19,6 @@
 }
 
 
-.editable-row {
-    border: 2px solid #007bff;
-    background-color: #f9f9f9;
-}
-
 
 
 .middle-nav {
@@ -72,3 +67,15 @@
 }
 
 
+#englishWordSuggestions {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f8f9fa;
+}

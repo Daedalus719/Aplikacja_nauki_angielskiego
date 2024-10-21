@@ -133,7 +133,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function speak(text) {
-        const utterance = new SpeechSynthesisUtterance(text);
+        const sanitizedWord = text.replace(/[\/\\$$]/g, '   ');
+
+        const utterance = new SpeechSynthesisUtterance(sanitizedWord.trim());
         utterance.lang = 'en-US';
         speechSynthesis.speak(utterance);
     }

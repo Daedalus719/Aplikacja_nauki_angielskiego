@@ -31,8 +31,16 @@ class CourseWordController extends Controller
     {
         $query = $request->get('query');
 
-        $words = Word::where('english_word', 'LIKE', '%' . $query . '%')->get();
+        $words = Word::where('english_word', 'LIKE', '%' . $query . '%')->orderBy('english_word', 'asc')->get();
 
         return response()->json($words);
+    }
+
+    public function destroy(Course $course, Word $word)
+    {
+        $course->words()->detach($word->id);
+
+        return redirect()->route('course-words.show', $course)
+                         ->with('success', 'Słowo zostało pomyślnie usunięte z kursu.');
     }
 }

@@ -20,7 +20,9 @@ Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
 Route::match(['get'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
-Route::get('/words/load-more', [WordController::class, 'loadMore'])->name('words.load-more');
+Route::get('/words/load-more', [WordController::class, 'loadMoreWords']);
+Route::get('/suggestions', [WordController::class, 'getSuggestions'])->name('suggestions');
+
 
 
 Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
@@ -84,8 +86,9 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'Admin'])->group(function () {
     Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
-    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
-    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
+    Route::put('/words/{id}', [WordController::class, 'updateWord']);
+    Route::delete('/words/{id}', [WordController::class, 'deleteWord']);
+
 
     Route::match(['post'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
 
@@ -95,6 +98,10 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit');
     Route::patch('/course/{course}', [CourseController::class, 'update'])->name('course.update');
     Route::delete('/course/{course}', [CourseController::class, 'destroy'])->name('course.destroy');
+
+    Route::delete('/courses/{course}/words/{word}', [CourseWordController::class, 'destroy'])
+    ->name('course-words.destroy');
+
 
     Route::get('/search-word', [CourseWordController::class, 'searchWord'])->name('course-words.search');
 
@@ -108,7 +115,6 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::put('/irregular-verbs/{id}', [IrregularVerbController::class, 'update'])->name('irregular-verbs.update');
     Route::delete('/irregular-verbs/{id}', [IrregularVerbController::class, 'destroy'])->name('irregular-verbs.destroy');
 
-    Route::get('sections/create', [SectionController::class, 'create'])->name('sections.create');
     Route::post('sections/{section}/add-rule', [SectionController::class, 'addRule'])->name('sections.addRule');
     Route::patch('/rules/{id}', [SectionController::class, 'updateRule'])->name('rules.update');
     Route::delete('/rules/{id}', [SectionController::class, 'deleteRule'])->name('rules.delete');

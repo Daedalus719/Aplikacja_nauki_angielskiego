@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <meta name="usertype" content="{{ Auth::check() ? Auth::user()->usertype : '' }}">
+
+
     <title>@yield('title', 'Aplikacja Nauki')</title>
 
     <!-- Fonts -->
@@ -18,7 +21,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         jQuery.noConflict();
         jQuery(document).ready(function($) {
@@ -75,7 +78,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 

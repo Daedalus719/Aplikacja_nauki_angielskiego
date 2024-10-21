@@ -1,405 +1,241 @@
-import { showMessage } from './messageHandler.js';
-
-
-
-//code for removal from here
-
 document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('searchWord');
-    const suggestionsList = document.getElementById('wordSuggestions');
     const wordTableBody = document.getElementById('wordTableBody');
-    const englishWordInput = document.getElementById('english_word');
-    const englishWordSuggestionsList = document.getElementById('englishWordSuggestions');
+    let currentOffset = 0;
+    const limit = 60;
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    let offset = 60;
-    let isLoading = false;
+    const userTypeMeta = document.querySelector('meta[name="usertype"]');
+    const userType = userTypeMeta ? userTypeMeta.content : '';
 
-    searchInput.addEventListener('input', function () {
-        const query = this.value;
+    loadWords(currentOffset, limit);
 
-        if (query.length > 1) {
-            fetch(`/search-words?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    suggestionsList.innerHTML = '';
-
-                    if (data.length) {
-                        data.forEach(word => {
-                            const listItem = document.createElement('li');
-                            listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-                            listItem.innerHTML = `
-                                <span>${word.english_word} (${word.polish_word})</span>
-                                <span>
-                                    ${word.language === 'english' ? '🇬🇧' : '🇵🇱'}
-                                </span>
-                            `;
-                            listItem.addEventListener('click', () => {
-                                window.location.href = `/words/${word.id}`;
-                            });
-                            suggestionsList.appendChild(listItem);
-                        });
-                    } else {
-                        const noResult = document.createElement('li');
-                        noResult.classList.add('list-group-item');
-                        noResult.textContent = 'No results found';
-                        suggestionsList.appendChild(noResult);
-                    }
-                });
-        } else {
-            suggestionsList.innerHTML = '';
+    document.querySelector('.flex-grow-1').addEventListener('scroll', function () {
+        if (this.scrollTop + this.clientHeight >= this.scrollHeight) {
+            loadWords(currentOffset, limit);
         }
     });
 
-
-    englishWordInput.addEventListener('input', function () {
-        const query = this.value;
-
-        if (query.length > 1) {
-            fetch(`/search-words?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    englishWordSuggestionsList.innerHTML = '';
-
-                    if (data.length) {
-                        data.forEach(word => {
-                            const listItem = document.createElement('li');
-                            listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-                            listItem.innerHTML = `
-                                <span>${word.english_word} (${word.polish_word})</span>
-                                <span>
-                                    ${word.language === 'english' ? '🇬🇧' : '🇵🇱'}
-                                </span>
-                            `;
-                            listItem.addEventListener('click', () => {
-                                englishWordInput.value = word.english_word;
-                                englishWordSuggestionsList.innerHTML = '';
-                            });
-                            englishWordSuggestionsList.appendChild(listItem);
-                        });
-                    } else {
-                        const noResult = document.createElement('li');
-                        noResult.classList.add('list-group-item');
-                        noResult.textContent = 'No results found';
-                        englishWordSuggestionsList.appendChild(noResult);
-                    }
-                });
-        } else {
-            englishWordSuggestionsList.innerHTML = '';
-        }
-    });
-
-    document.addEventListener('click', function (event) {
-        if (!suggestionsList.contains(event.target) && event.target !== searchInput) {
-            suggestionsList.innerHTML = '';
-        }
-
-        if (!englishWordSuggestionsList.contains(event.target) && event.target !== englishWordInput) {
-            englishWordSuggestionsList.innerHTML = '';
-        }
-    });
-
-    //till here
-
-
-
-
-    /*     THE RIGHT CODE WITHOIT THE ADDED SEARCH BAR TO TH ADD WORDS FORM (TO BE RESTORED!!!!)
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('searchWord');
-        const suggestionsList = document.getElementById('wordSuggestions');
-        const wordTableBody = document.getElementById('wordTableBody');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        let offset = 60;
-        let isLoading = false;
-
-        searchInput.addEventListener('input', function () {
-            const query = this.value;
-
-            if (query.length > 1) {
-                fetch(`/search-words?query=${query}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        suggestionsList.innerHTML = '';
-
-                        if (data.length) {
-                            data.forEach(word => {
-                                const listItem = document.createElement('li');
-                                listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-                                listItem.innerHTML = `
-                                    <span>${word.english_word} (${word.polish_word})</span>
-                                    <span>
-                                        ${word.language === 'english' ? '🇬🇧' : '🇵🇱'}
-                                    </span>
-                                `;
-                                listItem.addEventListener('click', () => {
-                                    window.location.href = `/words/${word.id}`;
-                                });
-                                suggestionsList.appendChild(listItem);
-                            });
-                        } else {
-                            const noResult = document.createElement('li');
-                            noResult.classList.add('list-group-item');
-                            noResult.textContent = 'No results found';
-                            suggestionsList.appendChild(noResult);
-                        }
-                    });
-            } else {
-                suggestionsList.innerHTML = '';
-            }
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!suggestionsList.contains(event.target) && event.target !== searchInput) {
-                suggestionsList.innerHTML = '';
-            }
-        });*/
-
-
-    let wordIdToDelete = null;
-
-    wordTableBody.addEventListener('click', function (e) {
-        if (e.target.closest('button') && e.target.closest('button').classList.contains('btn-outline-danger')) {
-            e.preventDefault();
-            const deleteButton = e.target.closest('button');
-            wordIdToDelete = deleteButton.closest('form').action.split('/').pop();
-
-            const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
-            deleteModal.show();
-        }
-    });
-
-    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-    confirmDeleteBtn.addEventListener('click', function () {
-        if (wordIdToDelete) {
-            const form = document.querySelector(`form[action$="/${wordIdToDelete}"]`);
-            if (form) {
-                form.submit();
-            }
-        }
-    });
-
-    function loadMoreWords() {
-        if (isLoading) return;
-        isLoading = true;
-
-        const loader = document.createElement('tr');
-        loader.innerHTML = '<td colspan="5" class="text-center">Loading...</td>';
-        wordTableBody.appendChild(loader);
-
+    function loadWords(offset, limit) {
         fetch(`/words/load-more?offset=${offset}`)
             .then(response => response.json())
             .then(data => {
-                loader.remove();
-                data.forEach(word => {
-                    const row = createWordRow(word);
-                    wordTableBody.appendChild(row);
-                });
-                offset += 60;
-                isLoading = false;
+                if (data.length > 0) {
+                    currentOffset += limit;
+                    data.sort((a, b) => a.english_word.localeCompare(b.english_word));
+                    data.forEach(word => appendWordRow(word));
+                }
             });
+    }
+
+    function appendWordRow(word) {
+        const row = createWordRow(word);
+        wordTableBody.appendChild(row);
+
+        const editBtn = row.querySelector('.edit-btn');
+        const deleteBtn = row.querySelector('.delete-btn');
+        const ttsBtn = row.querySelector('.tts-btn');
+
+        if (editBtn) {
+            editBtn.addEventListener('click', () => editWord(word.id));
+        }
+
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => deleteWord(word.id));
+        }
+
+        if (ttsBtn) {
+            ttsBtn.addEventListener('click', () => speakWord(word.english_word));
+        }
     }
 
     function createWordRow(word) {
         const row = document.createElement('tr');
         row.id = `word-row-${word.id}`;
-
         row.innerHTML = `
+            <td>${renderActionButtons(word.id)}</td>
             <td class="english-word">${word.english_word}</td>
-            <td class="pronunciation">
-                ${word.pronunciation !== null ? word.pronunciation : ''}
-            </td>
-            <td class="word-type">${capitalize(word.word_type)}</td>
-            <td class="polish-word">${word.polish_word}</td>
-            <td>${renderActionButtons(word.id)}</td>`;
-
-        const ttsButton = document.createElement('button');
-        ttsButton.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'tts-btn');
-        ttsButton.textContent = '🔊';
-        ttsButton.setAttribute('data-english-word', word.english_word);
-
-        const pronunciationCell = row.querySelector('.pronunciation');
-        pronunciationCell.appendChild(ttsButton);
-
-        ttsButton.addEventListener('click', function () {
-            const englishWord = this.getAttribute('data-english-word');
-            const cleanedWord = cleanText(englishWord);
-            speak(cleanedWord);
-        });
-
+            <td class="word-type">${(word.word_type)}</td>
+            <td class="polish-word">${word.polish_word}</td>`;
         return row;
     }
 
-
     function renderActionButtons(wordId) {
+        const ttsButton = `<button class="btn btn-sm btn-outline-primary tts-btn" data-english-word="${wordId}">🔊</button>`;
         if (userType === 'Admin') {
             return `
+                ${ttsButton}
                 <button class="btn btn-sm btn-outline-secondary edit-btn" data-word-id="${wordId}">Edytuj</button>
                 <button class="btn btn-sm btn-outline-success save-btn" data-word-id="${wordId}" style="display: none;">Zapisz</button>
-                <form action="/words/${wordId}" method="POST" style="display:inline;">
-                    <input type="hidden" name="_token" value="${csrfToken}">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz usunąć to słowo?')">Usuń</button>
-                </form>`;
+                <button class="btn btn-sm btn-outline-secondary cancel-btn" data-word-id="${wordId}" style="display: none;">Anuluj</button>
+                <button class="btn btn-sm btn-outline-danger delete-btn" data-word-id="${wordId}">Usuń</button>`;
         } else {
-            return '';
+            return `${ttsButton}`;
         }
     }
 
-    wordTableBody.addEventListener('click', function (e) {
-        if (e.target.classList.contains('edit-btn')) {
-            const wordId = e.target.getAttribute('data-word-id');
-            const row = document.getElementById(`word-row-${wordId}`);
-            toggleEditMode(row, true);
-        }
+    function editWord(wordId) {
+        const row = document.getElementById(`word-row-${wordId}`);
+        const saveBtn = row.querySelector('.save-btn');
+        const editBtn = row.querySelector('.edit-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
 
-        if (e.target.classList.contains('save-btn')) {
-            const wordId = e.target.getAttribute('data-word-id');
-            const row = document.getElementById(`word-row-${wordId}`);
-            saveWordChanges(row, wordId);
-        }
+        const englishWord = row.querySelector('.english-word');
+        const polishWord = row.querySelector('.polish-word');
+        const originalEnglishWord = englishWord.textContent.trim();
+        const originalPolishWord = polishWord.textContent.trim();
 
-        if (e.target.classList.contains('cancel-btn')) {
-            const wordId = e.target.getAttribute('data-word-id');
-            const row = document.getElementById(`word-row-${wordId}`);
+        englishWord.setAttribute('contenteditable', true);
+        polishWord.setAttribute('contenteditable', true);
 
-            row.querySelector('.english-word').textContent = row.dataset.originalEnglishWord;
-            row.querySelector('.word-type').textContent = capitalize(row.dataset.originalWordType);
-            row.querySelector('.polish-word').textContent = row.dataset.originalPolishWord;
+        englishWord.style.border = '3px solid #007BFF';
+        polishWord.style.border = '3px solid #007BFF';
 
-            toggleEditMode(row, false);
-        }
-    });
+        const wordTypeCell = row.querySelector('.word-type');
+        const currentWordType = wordTypeCell.textContent.trim();
+        wordTypeCell.innerHTML = `
+            <select class="form-select">
+                <option value="Noun (Rzeczownik)" ${currentWordType === 'Noun (Rzeczownik)' ? 'selected' : ''}>Rzeczownik</option>
+                <option value="Verb (Czasownik)" ${currentWordType === 'Verb (Czasownik)' ? 'selected' : ''}>Czasownik</option>
+                <option value="Adjective (Przymiotnik)" ${currentWordType === 'Adjective (Przymiotnik)' ? 'selected' : ''}>Przymiotnik</option>
+                <option value="Adverb (Przysłówek)" ${currentWordType === 'Adverb (Przysłówek)' ? 'selected' : ''}>Przysłówek</option>
+                <option value="Pronoun (Zaimek)" ${currentWordType === 'Pronoun (Zaimek)' ? 'selected' : ''}>Zaimek</option>
+                <option value="Proverb (Przysłowie)" ${currentWordType === 'Proverb (Przysłowie)' ? 'selected' : ''}>Przysłowie</option>
+                <option value="Preposition (Przyimek)" ${currentWordType === 'Preposition (Przyimek)' ? 'selected' : ''}>Przyimek</option>
+                <option value="Conjunction (Spójnik)" ${currentWordType === 'Conjunction (Spójnik)' ? 'selected' : ''}>Spójnik</option>
+                <option value="Interjection (Wykrzyknik)" ${currentWordType === 'Interjection (Wykrzyknik)' ? 'selected' : ''}>Wykrzyknik</option>
+                <option value="Idiom (Idiom)" ${currentWordType === 'Idiom (Idiom)' ? 'selected' : ''}>Idiom</option>
+            </select>
+        `;
 
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-block';
+        cancelBtn.style.display = 'inline-block';
 
-    function toggleEditMode(row, isEditing) {
-        const wordId = row.id.split('-').pop();
+        saveBtn.addEventListener('click', () => saveWord(wordId));
+        cancelBtn.addEventListener('click', () => cancelEdit(wordId, originalEnglishWord, originalPolishWord, currentWordType));
+    }
 
-        if (isEditing) {
-            row.dataset.originalEnglishWord = row.querySelector('.english-word').textContent.trim();
-            row.dataset.originalWordType = row.querySelector('.word-type').textContent.toLowerCase();
-            row.dataset.originalPolishWord = row.querySelector('.polish-word').textContent.trim();
+    function cancelEdit(wordId, originalEnglishWord, originalPolishWord, originalWordType) {
+        const row = document.getElementById(`word-row-${wordId}`);
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+        const editBtn = row.querySelector('.edit-btn');
 
-            row.classList.add('editable-row');
-            row.querySelector('.english-word').innerHTML = `<input type="text" class="form-control" value="${row.dataset.originalEnglishWord}" id="english-word-${wordId}">`;
-            row.querySelector('.word-type').innerHTML = `
-            <select class="form-control" id="word-type-${wordId}">
-                <option value="Noun (Rzeczownik)" ${row.dataset.originalWordType === 'noun (rzeczownik)' ? 'selected' : ''}>Noun (Rzeczownik)</option>
-                <option value="Verb (Czasownik)" ${row.dataset.originalWordType === 'verb (czasownik)' ? 'selected' : ''}>Verb (Czasownik)</option>
-                <option value="Adjective (Przymiotnik)" ${row.dataset.originalWordType === 'adjective (przymiotnik)' ? 'selected' : ''}>Adjective (Przymiotnik)</option>
-                <option value="Adverb (Przysłówek)" ${row.dataset.originalWordType === 'adverb (przysłówek)' ? 'selected' : ''}>Adverb (Przysłówek)</option>
-                <option value="Pronoun (Zaimek)" ${row.dataset.originalWordType === 'pronoun (zaimek)' ? 'selected' : ''}>Pronoun (Zaimek)</option>
-                <option value="Proverb (Przysłowie)" ${row.dataset.originalWordType === 'proverb (przysłowie)' ? 'selected' : ''}>Proverb (Przysłowie)</option>
-                <option value="Preposition (Przyimek)" ${row.dataset.originalWordType === 'preposition (przyimek)' ? 'selected' : ''}>Preposition (Przyimek)</option>
-                <option value="Conjunction (Spójnik)" ${row.dataset.originalWordType === 'conjunction (spójnik)' ? 'selected' : ''}>Conjunction (Spójnik)</option>
-                <option value="Interjection (Wykrzyknik)" ${row.dataset.originalWordType === 'interjection (wykrzyknik)' ? 'selected' : ''}>Interjection (Wykrzyknik)</option>
-                <option value="Idiom (Idiom)" ${row.dataset.originalWordType === 'idiom (idiom)' ? 'selected' : ''}>Idiom (Idiom)</option>
-            </select>`;
+        const englishWord = row.querySelector('.english-word');
+        const polishWord = row.querySelector('.polish-word');
 
-            row.querySelector('.polish-word').innerHTML = `<input type="text" class="form-control" value="${row.dataset.originalPolishWord}" id="polish-word-${wordId}">`;
+        englishWord.textContent = originalEnglishWord;
+        polishWord.textContent = originalPolishWord;
 
-            row.querySelector('.edit-btn').style.display = 'none';
-            row.querySelector('.save-btn').style.display = 'inline';
+        englishWord.removeAttribute('contenteditable');
+        polishWord.removeAttribute('contenteditable');
 
-            if (!row.querySelector('.cancel-btn')) {
-                const cancelButton = document.createElement('button');
-                cancelButton.classList.add('btn', 'btn-sm', 'btn-outline-warning', 'cancel-btn');
-                cancelButton.textContent = 'Anuluj';
-                cancelButton.setAttribute('data-word-id', wordId);
-                row.querySelector('td:last-child').appendChild(cancelButton);
-            }
-        } else {
-            row.querySelector('.english-word').textContent = row.dataset.originalEnglishWord;
-            row.querySelector('.word-type').textContent = capitalize(row.dataset.originalWordType);
-            row.querySelector('.polish-word').textContent = row.dataset.originalPolishWord;
+        englishWord.style.border = 'none';
+        polishWord.style.border = 'none';
 
-            row.classList.remove('editable-row');
-            row.querySelector('.edit-btn').style.display = 'inline';
-            row.querySelector('.save-btn').style.display = 'none';
+        const wordTypeCell = row.querySelector('.word-type');
+        wordTypeCell.innerHTML = originalWordType;
 
-            const cancelButton = row.querySelector('.cancel-btn');
-            if (cancelButton) {
-                cancelButton.remove();
-            }
-        }
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+        editBtn.style.display = 'inline-block';
     }
 
 
-    function saveWordChanges(row, wordId) {
-        const englishWord = document.getElementById(`english-word-${wordId}`).value;
-        const wordType = document.getElementById(`word-type-${wordId}`).value;
-        const polishWord = document.getElementById(`polish-word-${wordId}`).value;
+    function saveWord(wordId) {
+        const row = document.getElementById(`word-row-${wordId}`);
+        const englishWord = row.querySelector('.english-word');
+        const polishWord = row.querySelector('.polish-word');
+        const saveBtn = row.querySelector('.save-btn');
+        const cancelBtn = row.querySelector('.cancel-btn');
+        const editBtn = row.querySelector('.edit-btn');
 
         const data = {
-            english_word: englishWord,
-            word_type: wordType,
-            polish_word: polishWord,
-            _token: csrfToken,
+            english_word: englishWord.textContent.trim(),
+            polish_word: polishWord.textContent.trim(),
+            word_type: row.querySelector('.word-type select').value,
         };
 
         fetch(`/words/${wordId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
+                'X-CSRF-TOKEN': csrfToken
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         })
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    toggleEditMode(row, false);
-                } else {
-                    alert('Wystąpił błąd podczas zapisawanie słowa.');
+                    row.querySelectorAll('td').forEach(td => td.removeAttribute('contenteditable'));
+
+                    englishWord.style.border = 'none';
+                    polishWord.style.border = 'none';
+
+                    const wordTypeCell = row.querySelector('.word-type');
+                    wordTypeCell.textContent = wordTypeCell.querySelector('select').value;
+
+                    saveBtn.style.display = 'none';
+                    cancelBtn.style.display = 'none';
+                    editBtn.style.display = 'inline-block';
                 }
-            })
-            .catch(error => {
-                console.error('Wystąpił błąd podczas zapisawanie słowa:', error);
             });
     }
 
-    window.addEventListener('scroll', function () {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-            loadMoreWords();
-        }
-    });
+    function deleteWord(wordId) {
+        const modal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+        modal.show();
 
-    function capitalize(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+            fetch(`/words/${wordId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(`word-row-${wordId}`).remove();
+                    }
+                    modal.hide();
+                });
+        }, { once: true });
+    }
+
+    function speakWord(word) {
+        const sanitizedWord = word.replace(/[\/\\$$]/g, ' ');
+
+        const utterance = new SpeechSynthesisUtterance(sanitizedWord.trim());
+        utterance.lang = 'en-US';
+        speechSynthesis.speak(utterance);
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const englishWordInput = document.getElementById('english_word');
+    const suggestionsList = document.getElementById('englishWordSuggestions');
 
+    englishWordInput.addEventListener('input', function() {
+        const query = this.value;
 
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const ttsButtons = document.querySelectorAll('.tts-btn');
-
-    ttsButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const englishWord = this.getAttribute('data-english-word');
-            const cleanedWord = cleanText(englishWord);
-            speak(cleanedWord);
-        });
-    });
-
-    function cleanText(text) {
-        return text.replace(/[\/]/g, ' ');
-    }
-
-
-    function speak(text) {
-        if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = 1;
-            utterance.pitch = 1;
-            window.speechSynthesis.speak(utterance);
+        if (query.length > 1) {
+            fetch(`/suggestions?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestionsList.innerHTML = '';
+                    data.forEach(word => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'list-group-item suggestion-item';
+                        listItem.textContent = `${word.english_word} - ${word.polish_word}`;
+                        listItem.onclick = function() {
+                            englishWordInput.value = word.english_word;
+                            suggestionsList.innerHTML = '';
+                        };
+                        suggestionsList.appendChild(listItem);
+                    });
+                });
         } else {
-            alert('Sorry, your browser does not support text-to-speech.');
+            suggestionsList.innerHTML = '';
         }
-    }
+    });
 });
-

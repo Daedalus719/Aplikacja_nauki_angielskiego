@@ -9,20 +9,20 @@
 
         <ul class="list-group mb-3" id="rules-list">
             @forelse ($section->rules as $rule)
-            <li class="list-group-item" data-id="{{ $rule->id }}">
-                <div class="rule-content">{!! $rule->content !!}</div>
+                <li class="list-group-item" data-id="{{ $rule->id }}">
+                    <div class="rule-content">{!! $rule->content !!}</div>
 
-                <div class="buttons mt-2">
-                    <button class="btn btn-sm btn-secondary edit-rule" data-id="{{ $rule->id }}">Edytuj</button>
-                    <button class="btn btn-sm btn-danger delete-rule" data-id="{{ $rule->id }}">Usuń</button>
-                </div>
+                    <div class="buttons mt-2">
+                        <button class="btn btn-sm btn-secondary edit-rule" data-id="{{ $rule->id }}">Edytuj</button>
+                        <button class="btn btn-sm btn-danger delete-rule" data-id="{{ $rule->id }}">Usuń</button>
+                    </div>
 
-                <div class="edit-form mt-3" style="display: none;">
-                    <textarea class="form-control" name="edit-content">{{ $rule->content }}</textarea>
-                    <button class="btn btn-success save-rule mt-2" data-id="{{ $rule->id }}">Zapisz</button>
-                    <button class="btn btn-secondary cancel-edit mt-2">Anuluj</button>
-                </div>
-            </li>
+                    <div class="edit-form mt-3" style="display: none;">
+                        <textarea class="form-control" name="edit-content">{{ $rule->content }}</textarea>
+                        <button class="btn btn-success save-rule mt-2" data-id="{{ $rule->id }}">Zapisz</button>
+                        <button class="btn btn-secondary cancel-edit mt-2">Anuluj</button>
+                    </div>
+                </li>
 
             @empty
                 <p>Brak dodanych reguł!</p>
@@ -109,10 +109,16 @@
                             ruleItem.querySelector('.rule-content').innerHTML = data.content;
                             ruleItem.querySelector('.rule-content').style.display = 'block';
                             ruleItem.querySelector('.edit-form').style.display = 'none';
+                        } else {
+                            console.error('Error saving rule:', data.message);
                         }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
                     });
             });
         });
+
 
         document.querySelectorAll('.delete-rule').forEach(button => {
             button.addEventListener('click', function() {

@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/css/flashcards.css',
                 'resources/css/sections.css',
                 'resources/js/app.js',
+                'resources/js/dashboard.js',
                 'resources/js/messageHandler.js',
                 'resources/js/translation-game.js',
                 'resources/js/scrabble-game.js',

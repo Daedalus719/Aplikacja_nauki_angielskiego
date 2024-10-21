@@ -15,11 +15,6 @@ class SectionController extends Controller
     }
 
 
-    public function create()
-    {
-        return view('sections.create');
-    }
-
 
     public function store(Request $request)
     {
@@ -52,12 +47,6 @@ class SectionController extends Controller
         return redirect()->route('sections.show', $id)->with('success', 'Reguła z powodzeniem została dodana!');
     }
 
-    public function edit($id)
-    {
-        $section = Section::findOrFail($id);
-        return view('sections.edit', compact('section'));
-    }
-
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -81,14 +70,18 @@ class SectionController extends Controller
 
     public function updateRule(Request $request, $id)
     {
+        $validated = $request->validate([
+            'content' => 'required|string',
+        ]);
+
         $rule = Rule::findOrFail($id);
-        $rule->content = $request->input('content');
+        $rule->content = $validated['content'];
         $rule->save();
 
         return response()->json([
             'success' => true,
-            'message' => 'Reguła została z powodzeniem zaktualizowana!',
-            'content' => $rule->content
+            'message' => 'Reguła została zaktualizowana!',
+            'content' => $rule->content,
         ]);
     }
 
