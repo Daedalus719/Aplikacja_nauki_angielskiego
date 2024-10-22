@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderActionButtons(wordId) {
         const ttsButton = `<button class="btn btn-sm btn-outline-primary tts-btn" data-english-word="${wordId}">🔊</button>`;
-        if (userType === 'Admin') {
+
+        if (userType === 'Admin' || userType === 'Moderator') {
             return `
                 ${ttsButton}
                 <button class="btn btn-sm btn-outline-secondary edit-btn" data-word-id="${wordId}">Edytuj</button>
@@ -215,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const englishWordInput = document.getElementById('english_word');
     const suggestionsList = document.getElementById('englishWordSuggestions');
 
-    englishWordInput.addEventListener('input', function() {
+    englishWordInput.addEventListener('input', function () {
         const query = this.value;
 
         if (query.length > 1) {
@@ -227,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const listItem = document.createElement('li');
                         listItem.className = 'list-group-item suggestion-item';
                         listItem.textContent = `${word.english_word} - ${word.polish_word}`;
-                        listItem.onclick = function() {
+                        listItem.onclick = function () {
                             englishWordInput.value = word.english_word;
                             suggestionsList.innerHTML = '';
                         };

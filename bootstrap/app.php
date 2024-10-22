@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
 
             'Admin'=> \App\Http\Middleware\Admin::class,
+            'Moderator' => \App\Http\Middleware\Moderator::class,
 
         ]);
     })

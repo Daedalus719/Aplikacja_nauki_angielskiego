@@ -28,6 +28,7 @@
                             <select class="form-control user-role" data-id="{{ $user->id }}" disabled>
                                 <option value="User" {{ $user->usertype === 'User' ? 'selected' : '' }}>User</option>
                                 <option value="Admin" {{ $user->usertype === 'Admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="Moderator" {{ $user->usertype === 'Moderator' ? 'selected' : '' }}>Moderator</option>
                             </select>
                         </td>
                         <td>

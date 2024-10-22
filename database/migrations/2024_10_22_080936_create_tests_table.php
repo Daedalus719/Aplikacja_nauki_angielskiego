@@ -6,12 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTestsTable extends Migration
 {
+
     public function up()
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

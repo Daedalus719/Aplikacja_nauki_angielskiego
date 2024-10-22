@@ -3,22 +3,22 @@
 
     <div class="container mt-5">
         <div class="row">
-            @if ($tests->isEmpty())
+            @if ($courses->isEmpty())
                 <div class="col-md-12 text-center">
                     <h2 class="text-muted">UPS... Ta podstrona jest w trakcie prac. Przepraszamy</h2>
                 </div>
             @else
-                @foreach ($tests as $test)
+                @foreach ($courses as $course)
                     <div class="col-md-6">
                         <div class="card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <span>{{ $test->title }}</span>
+                                <span>Testy dla {{ $course->title }}</span>
                             </div>
                             <div class="card-body">
-                                <p class="card-text">{{ $test->description }}</p>
-                                <p class="card-text"><strong>Testy dla kursu:</strong> {{ $test->course->title }}</p>
-                                <a href="{{ route('tests.show', $test->id) }}" class="btn btn-primary">Przejdź do
-                                    testów</a>
+                                <p class="card-text">{{ $course->description }}</p>
+                                <a href="{{ route('tests.show', $course->id) }}" class="btn btn-primary">
+                                    Przejdź do testów
+                                </a>
                             </div>
                         </div>
                     </div>

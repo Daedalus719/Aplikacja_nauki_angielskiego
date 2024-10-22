@@ -3,7 +3,7 @@
 
     <div class="container-fluid d-flex flex-column" style="height: 100vh;">
 
-        @if (Auth::check() && Auth::user()->usertype === 'Admin')
+        @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
             <div class="mb-3">
                 <form id="addWordForm" action="{{ route('dictionary') }}" method="POST">
                     @csrf

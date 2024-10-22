@@ -2,7 +2,7 @@
     <div class="container">
         <h1>Sekcje</h1>
 
-        @if (Auth::check() && Auth::user()->usertype === 'Admin')
+        @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Stwórz nową
                 sekcję</button>
         @endif
@@ -17,7 +17,7 @@
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between align-items-center">
                             <strong>{{ $section->title }}</strong>
-                            @if (Auth::check() && Auth::user()->usertype === 'Admin')
+                            @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
                                 <div>
                                     <button class="btn btn-sm btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#editModal" data-title="{{ $section->title }}"

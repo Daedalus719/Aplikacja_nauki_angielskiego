@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Układanka dla czasu "{{ $section->title }}"</h1>
 
-        @if (Auth::check() && Auth::user()->usertype === 'Admin')
+        @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
             <h3>Dodaj zdanie:</h3>
             <form action="{{ route('sentence_game.add-sentence', $section->id) }}" method="POST">
                 @csrf

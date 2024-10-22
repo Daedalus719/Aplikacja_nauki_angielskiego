@@ -13,16 +13,16 @@
                         <div class="card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span>{{ $course->title }}</span>
-                                @if (Auth::check() && Auth::user()->usertype === 'Admin')
+                                @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
                                     <div>
-                                        <a href="{{ route('course.edit', $course) }}"
-                                            class="btn btn-sm btn-outline-secondary">
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            onclick="openEditModal({{ $course->id }})">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                 <path
                                                     d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
                                             </svg>
-                                        </a>
+                                        </button>
                                         <button type="button" class="btn btn-sm btn-outline-danger"
                                             onclick="confirmDelete('{{ route('course.destroy', $course) }}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -44,7 +44,7 @@
                 @endforeach
             @endif
 
-            @if (Auth::check() && Auth::user()->usertype === 'Admin')
+            @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
                 <div class="col-md-6">
                     <div class="card mb-4">
                         <div class="card-header">
@@ -53,11 +53,68 @@
                         <div class="card-body text-center">
                             <h5 class="card-title">Stwórz nowy kurs</h5>
                             <p class="card-text">Dodaj nowy kurs do swojej oferty.</p>
-                            <a href="{{ route('course.create') }}" class="btn btn-primary">Dodaj nowy kurs</a>
+                            <button class="btn btn-primary" onclick="openCreateModal()">Dodaj nowy kurs</button>
                         </div>
                     </div>
                 </div>
             @endif
+        </div>
+    </div>
+
+    <div class="modal fade" id="createCourseModal" tabindex="-1" aria-labelledby="createCourseLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="createCourseForm" method="POST" action="{{ route('course.store') }}">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createCourseLabel">Dodaj Nowy Kurs</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Tytuł Kursu</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Opis Kursu</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editCourseForm" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCourseLabel">Edytuj Kurs</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="edit_title" class="form-label">Tytuł Kursu</label>
+                            <input type="text" class="form-control" id="edit_title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_description" class="form-label">Opis Kursu</label>
+                            <textarea class="form-control" id="edit_description" name="description" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -80,6 +137,25 @@
 
     <script>
         let deleteUrl = '';
+
+        function openCreateModal() {
+            var createModal = new bootstrap.Modal(document.getElementById('createCourseModal'));
+            createModal.show();
+        }
+
+        function openEditModal(courseId) {
+            fetch(`/course/${courseId}/edit`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('edit_title').value = data.title;
+                    document.getElementById('edit_description').value = data.description;
+                    document.getElementById('editCourseForm').action = `/course/${courseId}`;
+
+                    var editModal = new bootstrap.Modal(document.getElementById('editCourseModal'));
+                    editModal.show();
+                })
+                .catch(error => console.log(error));
+        }
 
         function confirmDelete(url) {
             deleteUrl = url;

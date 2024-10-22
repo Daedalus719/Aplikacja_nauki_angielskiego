@@ -5,7 +5,7 @@
 
         <a href="{{ route('course.index') }}" class="btn btn-secondary mb-3 mt-3">Przejdź do wyboru kursów</a>
 
-        @if (Auth::check() && Auth::user()->usertype === 'Admin')
+        @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
             <h2>Dodaj słowo do Kursu: {{ $course->title }}</h2>
 
             <form method="POST" action="{{ route('course-words.store', $course) }}">
@@ -29,7 +29,7 @@
                     <th scope="col">Angielskie Słowo</th>
                     <th scope="col">Polskie Tłumaczenie</th>
                     <th scope="col">Typ Słowa</th>
-                    @if (Auth::check() && Auth::user()->usertype === 'Admin')
+                    @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
                         <th scope="col">Akcje</th>
                     @endif
                 </tr>
@@ -43,7 +43,7 @@
                         <td>{{ $word->english_word }}</td>
                         <td>{{ $word->polish_word }}</td>
                         <td>{{ $word->word_type }}</td>
-                        @if (Auth::check() && Auth::user()->usertype === 'Admin')
+                        @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
                             <td>
                                 <button class="btn btn-sm btn-outline-danger"
                                         onclick="confirmDeleteWord('{{ route('course-words.destroy', [$course->id, $word->id]) }}')">

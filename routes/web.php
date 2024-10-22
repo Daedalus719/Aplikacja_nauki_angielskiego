@@ -23,7 +23,9 @@ Route::match(['get'], '/dictionary', [WordController::class, 'dictionary'])->nam
 Route::get('/words/load-more', [WordController::class, 'loadMoreWords']);
 Route::get('/suggestions', [WordController::class, 'getSuggestions'])->name('suggestions');
 
-
+Route::get('/search-words', [WordController::class, 'search'])->name('words.search');
+Route::get('/words/{id}', [WordController::class, 'show'])->name('words.show');
+Route::get('/words', [WordController::class, 'index'])->name('words.index');
 
 Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
 Route::get('/course/{course}', [CourseWordController::class, 'show'])->name('course-words.show');
@@ -47,28 +49,11 @@ Route::post('/check-answers', [GameController::class, 'checkAnswers']);
 Route::resource('sections', SectionController::class);
 Route::get('sections/tasks', [SectionController::class, 'tasks'])->name('sections.tasks');
 
-
 Route::get('/sentence_game', [SentenceController::class, 'index'])->name('sentence_game.index');
 Route::get('/sentence_game/{id}', [SentenceController::class, 'show'])->name('sentence_game.show');
 
+Route::get('tasks/{section_id}', [TaskController::class, 'index'])->name('tasks.index');
 
-
-
-
-
-
-
-
-
-
-Route::prefix('tasks/{section_id}')->group(function () {
-    Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
-    Route::get('/create', [TaskController::class, 'create'])->name('tasks.create');
-    Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
-    Route::get('/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-    Route::put('/{id}', [TaskController::class, 'update'])->name('tasks.update');
-    Route::delete('/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-});
 
 
 
@@ -78,13 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/search-words', [WordController::class, 'search'])->name('words.search');
-    Route::get('/words/{id}', [WordController::class, 'show'])->name('words.show');
-    Route::get('/words', [WordController::class, 'index'])->name('words.index');
 });
 
-Route::middleware(['auth', 'Admin'])->group(function () {
+Route::middleware(['auth', 'Moderator'])->group(function () {
     Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
     Route::put('/words/{id}', [WordController::class, 'updateWord']);
     Route::delete('/words/{id}', [WordController::class, 'deleteWord']);
@@ -100,15 +81,11 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::delete('/course/{course}', [CourseController::class, 'destroy'])->name('course.destroy');
 
     Route::delete('/courses/{course}/words/{word}', [CourseWordController::class, 'destroy'])
-    ->name('course-words.destroy');
+        ->name('course-words.destroy');
 
 
     Route::get('/search-word', [CourseWordController::class, 'searchWord'])->name('course-words.search');
 
-    Route::get('/tests/create', [TestController::class, 'create'])->name('tests.create');
-    Route::post('/tests', [TestController::class, 'store'])->name('tests.store');
-    Route::get('/tests/{test}/edit', [TestController::class, 'edit'])->name('tests.edit');
-    Route::put('/tests/{test}', [TestController::class, 'update'])->name('tests.update');
     Route::delete('/tests/{test}', [TestController::class, 'destroy'])->name('tests.destroy');
 
     Route::post('/irregular-verbs', [IrregularVerbController::class, 'store'])->name('irregular-verbs.store');
@@ -123,6 +100,12 @@ Route::middleware(['auth', 'Admin'])->group(function () {
     Route::get('/sentence_game/{section}/sentences', [SentenceController::class, 'allSentences'])->name('sentence_game.all-sentences');
     Route::post('/sentence_game/{sentence}/update', [SentenceController::class, 'updateSentence']);
     Route::delete('/sentence_game/{sentence}/delete', [SentenceController::class, 'deleteSentence']);
+
+    Route::get('tasks/{section_id}/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('tasks/{section_id}/store', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('tasks/{section_id}/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::put('tasks/{section_id}/{id}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('tasks/{section_id}/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 });
 
 

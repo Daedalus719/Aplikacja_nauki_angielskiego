@@ -3,7 +3,7 @@
 
     <div class="container mt-5">
 
-        @if (Auth::check() && Auth::user()->usertype === 'Admin')
+        @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
             <h3 class="mb-2">Dodaj nowy wpis</h3>
             <form id="addVerbForm" action="{{ route('irregular-verbs.store') }}" method="POST">
                 @csrf
@@ -37,7 +37,7 @@
                     <th>II forma (past tense)</th>
                     <th>III forma (past participle)</th>
                     <th>Tłumaczenie</th>
-                    @if (Auth::check() && Auth::user()->usertype === 'Admin')
+                    @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
                         <th>Akcje</th>
                     @endif
                 </tr>
@@ -52,7 +52,7 @@
                         <td class="verb-2nd">{{ $verb->verb_2nd_form }}</td>
                         <td class="verb-3rd">{{ $verb->verb_3rd_form }}</td>
                         <td class="polish-translation">{{ $verb->polish_translation }}</td>
-                        @if (Auth::check() && Auth::user()->usertype === 'Admin')
+                        @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
                             <td>
                                 <button class="btn btn-sm btn-outline-secondary edit-btn"
                                     data-word-id="{{ $verb->id }}">Edytuj</button>
