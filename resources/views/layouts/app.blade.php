@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="main-background" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
+<head class="main-background">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -37,7 +37,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen main-background">
         @include('layouts.navigation')
 
         <div id="message-box" class="fixed bottom-5 right-5 z-50 w-96">
@@ -68,7 +68,7 @@
         @endisset
 
         <!-- Page Content -->
-        <main>
+        <main class="main-background">
             {{ $slot }}
         </main>
     </div>

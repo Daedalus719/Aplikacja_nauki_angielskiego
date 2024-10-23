@@ -1,16 +1,18 @@
 <x-app-layout>
     @section('title', 'Układanka słów w zdanie dla ' . $section->title)
 
-    <div class="container">
-        <h1>Układanka dla czasu "{{ $section->title }}"</h1>
+    <div class="container mt-3">
+        <a href="{{ route('sentence_game.index') }}" class="btn btn-secondary mb-3">Wróć do sekcji z czasami</a>
+
+        <h1 class="main-text" >Układanka dla czasu "{{ $section->title }}"</h1>
 
         @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
-            <h3>Dodaj zdanie:</h3>
+            <h3 class="label-color mb-2 mt-3">Dodaj zdanie:</h3>
             <form action="{{ route('sentence_game.add-sentence', $section->id) }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="sentence">Sentence</label>
-                    <input type="text" name="sentence" id="sentence" class="form-control"
+                    <label class="label-color" for="sentence">Treść zdania</label>
+                    <input type="text" name="sentence" id="sentence" class="form-element"
                         placeholder="Wpisz treść..." required>
                 </div>
 
@@ -21,7 +23,7 @@
         @endif
 
         @if ($sentence)
-            <p>Pokładaj słowa aby ułuzyć z nim poprawne zdanie:</p>
+            <p class="main-text mt-2">Poukładaj słowa tak aby ułuzyć z nich poprawne zdanie:</p>
 
             <div class="sentence-words" data-correct-sentence="{{ $sentence->sentence }}">
                 @php
@@ -35,7 +37,7 @@
             </div>
 
             <div class="drop-zones mt-3">
-                <p>Upuść słowa w poniższych polach w odpowiedniej kolejności::</p>
+                <p class="main-text">Upuść słowa w poniższych polach w odpowiedniej kolejności::</p>
                 @for ($i = 0; $i < count($words); $i++)
                     <div class="drop-field" data-index="{{ $i }}" ondrop="dropWord(event)"
                         ondragover="allowDrop(event)">
@@ -46,7 +48,7 @@
 
             <button class="btn btn-success mt-4" onclick="location.reload()">Wygeneruj nowe zdanie.</button>
         @else
-            <p>Brak znalezionych zdań. NIe badź zły. To znaczy że moderatorzy aktualnie pracują nad tą sekcją.</p>
+            <p class="main-text">Brak znalezionych zdań. NIe badź zły. To znaczy że moderatorzy aktualnie pracują nad tą sekcją.</p>
         @endif
     </div>
 

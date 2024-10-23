@@ -1,8 +1,8 @@
 <x-app-layout>
     @section('title', 'Panel Admina')
 
-    <div class="container mt-5">
-        <h3>Zarejesrowani użytkownicy</h3>
+    <div class="container mt-3">
+        <h3 class="main-text">Zarejesrowani użytkownicy</h3>
 
         <table class="table table-bordered">
             <thead>

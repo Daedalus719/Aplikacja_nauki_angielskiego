@@ -12,6 +12,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->foreignId('section_id')->constrained()->onDelete('cascade');
             $table->text('text');
+            $table->int('task_type');
             $table->timestamps();
         });
     }

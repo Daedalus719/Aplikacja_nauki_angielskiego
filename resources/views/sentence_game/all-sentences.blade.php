@@ -2,7 +2,7 @@
     @section('title', 'All Sentences for "{{ $section->title }}"')
 
     <div class="container">
-        <h1 class="mt-2 mb-2">Wszystkie zdania dla: "{{ $section->title }}"</h1>
+        <h1 class="main-text mt-3 mb-2">Wszystkie zdania dla: "{{ $section->title }}"</h1>
 
         <table class="table table-striped">
             <thead>

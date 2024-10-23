@@ -1,8 +1,12 @@
 .rule-content {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 
 .buttons {
     display: flex;
-    gap: 10px;
+    gap: 0.5rem;
+}
+
+.edit-form {
+    margin-top: 1rem;
 }

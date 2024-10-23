@@ -26,45 +26,55 @@ class TaskController extends Controller
     {
         $validated = $request->validate([
             'text' => 'required|string',
+            'task_type' => 'required|in:1,2',
         ]);
 
         Task::create([
             'section_id' => $section_id,
             'text' => $validated['text'],
+            'task_type' => $validated['task_type'],
         ]);
 
         return redirect()->route('tasks.index', $section_id)->with('success', 'Zadanie dodane pomyślnie.');
     }
 
-    public function edit($section_id, $id)
+    public function randomTask($section_id, Request $request)
     {
-        $task = Task::where('section_id', $section_id)->where('id', $id)->firstOrFail();
+        $taskType = $request->query('type');
 
-        return view('tasks.edit', compact('task'));
+        $task = Task::where('section_id', $section_id)->where('task_type', $taskType)->inRandomOrder()->first();
+
+        if ($task) {
+            return response()->json($task);
+        }
+
+        return response()->json(['message' => 'No tasks found'], 404);
+    }
+
+    public function showAll($section_id)
+    {
+        $section = Section::findOrFail($section_id);
+        $tasks = Task::where('section_id', $section_id)->get();
+
+        return view('tasks.show_all', compact('tasks', 'section'));
     }
 
 
-    public function update(Request $request, $section_id, $id)
+    public function update(Request $request, $task_id)
     {
-        $validated = $request->validate([
-            'text' => 'required|string|max:255',
-        ]);
-
-        $task = Task::where('section_id', $section_id)->where('id', $id)->firstOrFail();
-        $task->text = $validated['text'];
+        $task = Task::findOrFail($task_id);
+        $task->text = $request->text;
         $task->save();
 
-        return redirect()->route('tasks.index', ['section_id' => $section_id])
-            ->with('success', 'Zadanie zostało pomyślnie zaktualizowane!');
+        return response()->json(['message' => 'Zadanie zostało pomyślnie zaktualizowane!']);
     }
 
 
-    public function destroy($section_id, $id)
+    public function delete($task_id)
     {
-        $task = Task::where('section_id', $section_id)->where('id', $id)->firstOrFail();
-
+        $task = Task::findOrFail($task_id);
         $task->delete();
 
-        return redirect()->route('tasks.index', ['section_id' => $section_id])->with('success', 'Zadanie zostało pomyślnie usunięte!');
+        return response()->json(['success' => true]);
     }
 }

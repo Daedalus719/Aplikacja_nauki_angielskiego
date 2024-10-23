@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Scrabble')
 
-    <div class="container scrabble-game">
+    <div class="container mt-3 scrabble-game">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>

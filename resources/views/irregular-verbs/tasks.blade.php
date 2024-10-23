@@ -2,7 +2,7 @@
     @section('title', 'Zadania: Czasowniki Nieregularne')
 
     <div class="container mt-5">
-        <h3>Wpisz brakujące formy czasowników:</h3>
+        <h2 class="main-text mb-2">Wpisz brakujące formy czasowników:</h2>
         <form id="irregularVerbsTaskForm">
             <table class="table table-bordered">
                 <thead>

@@ -53,6 +53,7 @@ Route::get('/sentence_game', [SentenceController::class, 'index'])->name('senten
 Route::get('/sentence_game/{id}', [SentenceController::class, 'show'])->name('sentence_game.show');
 
 Route::get('tasks/{section_id}', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('/section/{section_id}/tasks/random', [TaskController::class, 'randomTask']);
 
 
 
@@ -103,9 +104,10 @@ Route::middleware(['auth', 'Moderator'])->group(function () {
 
     Route::get('tasks/{section_id}/create', [TaskController::class, 'create'])->name('tasks.create');
     Route::post('tasks/{section_id}/store', [TaskController::class, 'store'])->name('tasks.store');
-    Route::get('tasks/{section_id}/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-    Route::put('tasks/{section_id}/{id}', [TaskController::class, 'update'])->name('tasks.update');
-    Route::delete('tasks/{section_id}/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+    Route::get('/section/{section_id}/tasks/all', [TaskController::class, 'showAll'])->name('tasks.show_all');
+    Route::post('/tasks/{task_id}/update', [TaskController::class, 'update']);
+    Route::delete('/tasks/{task_id}/delete', [TaskController::class, 'delete']);
+
 });
 
 

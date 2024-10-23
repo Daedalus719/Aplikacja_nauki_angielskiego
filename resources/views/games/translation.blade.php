@@ -8,14 +8,14 @@
             <a href="{{ route('games.index') }}" class="btn btn-secondary mt-3 return-btn">Powrót do wyboru gier</a>
 
             <div class="score-container">
-                <span>Wynik: </span><span id="score">0</span>
+                <span class="main-text">Wynik: </span><span class="main-text" id="score">0</span>
             </div>
         </div>
 
-        <p class="text-center">Wybierz poprawne tłumaczenie dla słowa poniżej:</p>
+        <p class="text-center main-text">Wybierz poprawne tłumaczenie dla słowa poniżej:</p>
 
         <div id="game-container" class="mt-5 text-center">
-            <h3 id="english-word"></h3>
+            <h3 class="main-text" id="english-word"></h3>
             <div class="mt-4">
                 <button class="btn btn-lg btn-primary option-btn" data-answer="true"></button>
                 <button class="btn btn-lg btn-primary option-btn" data-answer="false"></button>

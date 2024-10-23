@@ -4,36 +4,39 @@
     <div class="container-fluid d-flex flex-column" style="height: 100vh;">
 
         @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
-            <div class="mb-3">
+            <div class="mb-3 mt-3">
                 <form id="addWordForm" action="{{ route('dictionary') }}" method="POST">
                     @csrf
                     <div class="mb-3 position-relative">
-                        <label for="english_word" class="form-label">Słowo Angielskie:</label>
-                        <input type="text" class="form-control" id="english_word" name="english_word" required
+                        <label for="english_word" class="form-label label-color">Słowo Angielskie:</label>
+                        <input type="text" class="form-element" id="english_word" name="english_word" required
                             autocomplete="off">
                         <ul id="englishWordSuggestions" class="list-group position-absolute" style="z-index: 1000;">
                         </ul>
                     </div>
 
                     <div class="mb-3">
-                        <label for="word_type" class="form-label">Typ słowa</label>
-                        <select class="form-control" id="word_type" name="word_type" required>
-                            <option value="Noun (Rzeczownik)">Rzeczownik</option>
-                            <option value="Verb (Czasownik)">Czasownik</option>
-                            <option value="Adjective (Przymiotnik)">Przymiotnik</option>
-                            <option value="Adverb (Przysłówek)">Przysłówek</option>
-                            <option value="Pronoun (Zaimek)">Zaimek</option>
-                            <option value="Proverb (Przysłowie)">Przysłowie</option>
-                            <option value="Preposition (Przyimek)">Przyimek</option>
-                            <option value="Conjunction (Spójnik)">Spójnik</option>
-                            <option value="Interjection (Wykrzyknik)">Wykrzyknik</option>
-                            <option value="Idiom (Idiom)">Idiom</option>
+                        <label for="word_type" class="form-label label-color">Typ słowa:</label>
+                        <select class="form-element" id="word_type" name="word_type" required>
+                            <option class="element-background gray-border label-color" value="Noun (Rzeczownik)">Rzeczownik</option>
+                            <option class="element-background gray-border label-color" value="Verb (Czasownik)">Czasownik</option>
+                            <option class="element-background gray-border label-color" value="Adjective (Przymiotnik)">Przymiotnik</option>
+                            <option class="element-background gray-border label-color" value="Adverb (Przysłówek)">Przysłówek</option>
+                            <option class="element-background gray-border label-color" value="Pronoun (Zaimek)">Zaimek</option>
+                            <option class="element-background gray-border label-color" value="Proverb (Przysłowie)">Przysłowie</option>
+                            <option class="element-background gray-border label-color" value="Preposition (Przyimek)">Przyimek</option>
+                            <option class="element-background gray-border label-color" value="Conjunction (Spójnik)">Spójnik</option>
+                            <option class="element-background gray-border label-color" value="Interjection (Wykrzyknik)">Wykrzyknik</option>
+                            <option class="element-background gray-border label-color" value="Idiom (Idiom)">Idiom</option>
                         </select>
                     </div>
 
+
+
+
                     <div class="mb-3">
-                        <label for="polish_word" class="form-label">Polskie tłumaczenie:</label>
-                        <input type="text" class="form-control" id="polish_word" name="polish_word" required>
+                        <label for="polish_word" class="form-label label-color">Polskie tłumaczenie:</label>
+                        <input type="text" class="form-element" id="polish_word" name="polish_word" required>
                     </div>
 
                     <button type="submit" class="btn btn-success">Dodaj wpis</button>

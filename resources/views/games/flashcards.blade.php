@@ -2,7 +2,7 @@
     @section('title', 'Fraszki')
 
     <div class="container mt-5">
-        <h2 class="text-center">Kliknij na kartę aby zobaczyć tłumaczenie tego słowa</h2>
+        <h2 class="text-center main-text">Kliknij na kartę aby zobaczyć tłumaczenie tego słowa</h2>
 
         <a href="{{ route('games.index') }}" class="btn btn-secondary return-btn">Powrót do wyboru gier</a>
 

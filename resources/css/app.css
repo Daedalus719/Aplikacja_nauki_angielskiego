@@ -19,14 +19,69 @@
 }
 
 
+.main-text {
+    color: #c7beba;
+}
+
+.nav-text {
+    color: #6eb951;
+}
+
+.main-background {
+    background-color: #323237;
+}
+
+.nav-background {
+    background-color: #161515;
+}
+
+.element-background {
+    background-color: #232325;
+}
+
+.gray-border {
+    border: 1px solid #888;
+}
+
+.label-color {
+
+    color: #f8f9fa;
+}
+
+.form-element {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #f8f9fa;
+    background-color: #232325;
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid #888;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.task-dropdown {
+    background-color: #232325;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px;
+    font-size: 16px;
+}
+
 
 
 .middle-nav {
     position: relative;
-    background-color: #ffffff;
+    background-color: #2f3a3d;
     padding: 0.5rem 2rem;
     clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
-    border: 2px solid #0061f3;
+    border: 3px solid #0061f3;
     border-radius: 0.5rem;
     box-shadow: 0px 4px 6px rgba(112, 109, 109, 0.959);
 }
@@ -39,8 +94,29 @@
 
 
 .middle-nav a:hover {
-    color: #878b8f;
+    color: #64B5F6;
 }
+
+.nav-element {
+    background-color: #2f3a3d;
+    border: 2px solid #646a74;
+    padding: 0.5rem 2rem;
+    border-radius: 0.5rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #testCards {

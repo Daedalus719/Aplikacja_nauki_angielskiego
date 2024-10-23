@@ -4,24 +4,24 @@
     <div class="container mt-5">
 
         @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
-            <h3 class="mb-2">Dodaj nowy wpis</h3>
+            <h3 class="mb-2 main-text">Dodaj nowy wpis</h3>
             <form id="addVerbForm" action="{{ route('irregular-verbs.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label for="verb_1st_form" class="form-label">I forma bezokolicznik (infinitive)</label>
-                    <input type="text" class="form-control" id="verb_1st_form" name="verb_1st_form" required>
+                    <label for="verb_1st_form" class="label-color">I forma bezokolicznik (infinitive)</label>
+                    <input type="text" class="form-element" id="verb_1st_form" name="verb_1st_form" required>
                 </div>
                 <div class="mb-3">
-                    <label for="verb_2nd_form" class="form-label">II forma (past tense)</label>
-                    <input type="text" class="form-control" id="verb_2nd_form" name="verb_2nd_form" required>
+                    <label for="verb_2nd_form" class="label-color">II forma (past tense)</label>
+                    <input type="text" class="form-element" id="verb_2nd_form" name="verb_2nd_form" required>
                 </div>
                 <div class="mb-3">
-                    <label for="verb_3rd_form" class="form-label">III forma (past participle)</label>
-                    <input type="text" class="form-control" id="verb_3rd_form" name="verb_3rd_form" required>
+                    <label for="verb_3rd_form" class="label-color">III forma (past participle)</label>
+                    <input type="text" class="form-element" id="verb_3rd_form" name="verb_3rd_form" required>
                 </div>
                 <div class="mb-3">
-                    <label for="polish_translation" class="form-label">Tłumaczenie</label>
-                    <input type="text" class="form-control" id="polish_translation" name="polish_translation"
+                    <label for="polish_translation" class="label-color">Tłumaczenie</label>
+                    <input type="text" class="form-element" id="polish_translation" name="polish_translation"
                         required>
                 </div>
                 <button type="submit" class="btn btn-success">Dodaj Wpis</button>

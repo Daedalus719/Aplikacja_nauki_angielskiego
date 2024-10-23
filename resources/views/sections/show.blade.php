@@ -1,7 +1,8 @@
 <x-app-layout>
     @section('title', 'Reguły dla ' . $section->title)
 
-    <div class="container">
+    <div class="container mt-3">
+        <a href="{{ route('sections.index') }}" class="btn btn-secondary mb-3">Wróć do sekcji z czasami</a>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -91,7 +92,10 @@
             button.addEventListener('click', function() {
                 const ruleItem = this.closest('li');
                 const ruleId = this.dataset.id;
-                const content = ruleItem.querySelector('textarea').value;
+
+                // Fetch CKEditor content
+                const editorInstance = editors[ruleId];
+                const content = editorInstance.getData(); // Get the data from CKEditor
 
                 fetch(`/rules/${ruleId}`, {
                         method: 'PATCH',
@@ -106,9 +110,14 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
+                            // Update the content on the page with the saved data
                             ruleItem.querySelector('.rule-content').innerHTML = data.content;
                             ruleItem.querySelector('.rule-content').style.display = 'block';
                             ruleItem.querySelector('.edit-form').style.display = 'none';
+
+                            // Destroy the CKEditor instance to prevent duplication
+                            editorInstance.destroy();
+                            delete editors[ruleId];
                         } else {
                             console.error('Error saving rule:', data.message);
                         }
@@ -118,6 +127,7 @@
                     });
             });
         });
+
 
 
         document.querySelectorAll('.delete-rule').forEach(button => {

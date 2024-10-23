@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="border-b border-gray-100 nav-background">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Nav First Row -->
@@ -9,10 +9,13 @@
 
             <div class="middle-nav-container" :class="{ 'hidden': open }">
                 <div class="middle-nav space-x-8 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link class="nav-text" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Strona główna') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dictionary')" :active="request()->routeIs('dictionary')">
+                    <x-nav-link class="nav-text" :href="route('games.index')" :active="request()->routeIs('games.index')">
+                        {{ __('Gry') }}
+                    </x-nav-link>
+                    <x-nav-link class="nav-text" :href="route('dictionary')" :active="request()->routeIs('dictionary')">
                         {{ __('Słownik') }}
                     </x-nav-link>
                 </div>
@@ -57,14 +60,16 @@
                                 </x-slot>
                             </x-dropdown>
                         @else
-                            <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-black">
-                                Zaloguj się
-                            </a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-black">
-                                    Zarejestruj się
+                            <div class="nav-element">
+                                <a href="{{ route('login') }}" class="rounded-md px-3 py-2 nav-text">
+                                    Zaloguj się
                                 </a>
-                            @endif
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="rounded-md px-3 py-2 nav-text">
+                                        Zarejestruj się
+                                    </a>
+                                @endif
+                            </div>
                         @endauth
                     </nav>
                 @endif
@@ -74,37 +79,35 @@
         <!-- Nav second row -->
         <div class="grid grid-cols-3 py-4" :class="{ 'hidden': open }">
             <div class="flex flex-col items-center justify-center text-center">
-                <h1 class="text-xl font-bold text-gray-900">Teoria</h1>
-                <div class="flex space-x-4 justify-center">
-                    <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
+                <h1 class="text-xl font-bold nav-text">Teoria</h1>
+                <div class="nav-element flex space-x-4 justify-center">
+                    <x-nav-link class="nav-text" :href="route('course.index')" :active="request()->routeIs('course.index')">
                         {{ __('Słownictwo') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('irregular-verbs.index')" :active="request()->routeIs('irregular-verbs.index')">
+                    <x-nav-link class="nav-text" :href="route('irregular-verbs.index')" :active="request()->routeIs('irregular-verbs.index')">
                         {{ __('Czasowniki nieregularne') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('sections.index')" :active="request()->routeIs('sections.index')">
+                    <x-nav-link class="nav-text" :href="route('sections.index')" :active="request()->routeIs('sections.index')">
                         {{ __('Reguły tworzenia zdań') }}
                     </x-nav-link>
                 </div>
             </div>
 
             <div class="flex justify-center items-center text-center">
-                <x-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')">
-                    {{ __('Gry') }}
-                </x-nav-link>
+
             </div>
 
             <div class="flex flex-col items-center justify-center text-center">
-                <h1 class="text-xl font-bold text-gray-900">Praktyka</h1>
-                <div class="flex space-x-4 justify-center">
-                    <x-nav-link :href="route('tests.index')" :active="request()->routeIs('tests.index')">
+                <h1 class="text-xl font-bold nav-text">Praktyka</h1>
+                <div class="nav-element flex space-x-4 justify-center">
+                    <x-nav-link class="nav-text" :href="route('tests.index')" :active="request()->routeIs('tests.index')">
                         {{ __('Testy z słownictwa') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('irregular-verbs.tasks')" :active="request()->routeIs('irregular-verbs.tasks')">
-                        {{ __('Zadania z czasownikami nieregularnymi') }}
+                    <x-nav-link class="nav-text" :href="route('irregular-verbs.tasks')" :active="request()->routeIs('irregular-verbs.tasks')">
+                        {{ __('Zadania na czasownikach') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('sentence_game.index')" :active="request()->routeIs('sentence_game.index')">
-                        {{ __('Zadania z reguł tworzenia zdań') }}
+                    <x-nav-link class="nav-text" :href="route('sentence_game.index')" :active="request()->routeIs('sentence_game.index')">
+                        {{ __('Zadania z reguł zdań') }}
                     </x-nav-link>
                 </div>
             </div>
