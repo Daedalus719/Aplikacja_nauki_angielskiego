@@ -15,7 +15,6 @@ export default defineConfig({
                 'resources/js/messageHandler.js',
                 'resources/js/translation-game.js',
                 'resources/js/scrabble-game.js',
-                'resources/js/scrabble-setup.js',
                 'resources/js/test.js',
                 'resources/js/dictionary.js',
                 'resources/js/admin.js',

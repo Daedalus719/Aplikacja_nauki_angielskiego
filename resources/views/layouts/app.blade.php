@@ -23,14 +23,14 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        jQuery.noConflict();
-        jQuery(document).ready(function($) {
-            setTimeout(function() {
-                $('.alert').fadeTo(500, 0).slideUp(500, function() {
-                    $(this).remove();
-                });
-            }, 3000);
-        });
+        //jQuery.noConflict();
+        //jQuery(document).ready(function($) {
+         //   setTimeout(function() {
+           //     $('.alert').fadeTo(500, 0).slideUp(500, function() {
+            //        $(this).remove();
+            //    });
+          //  }, 3000);
+        //});
     </script>
 
     @vite(['resources/js/messageHandler.js', 'resources/css/app.css', 'resources/js/app.js'])

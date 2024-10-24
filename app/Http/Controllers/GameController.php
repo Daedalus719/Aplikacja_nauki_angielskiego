@@ -36,10 +36,35 @@ class GameController extends Controller
 
     public function scrabble()
     {
-        $words = Word::inRandomOrder()->limit(3)->get();
-
-        return view('games.scrabble', compact('words'));
+        return view('games.scrabble');
     }
+
+    public function fetchScrabbleWords(Request $request)
+    {
+        // Validate inputs
+        $wordCount = $request->get('wordCount');
+        $wordTypes = $request->get('wordTypes');
+
+        if (!$wordCount || !$wordTypes) {
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        try {
+            // Fetch words based on the given word count and types
+            $words = Word::whereIn('word_type', explode(',', $wordTypes))
+                ->inRandomOrder()
+                ->limit($wordCount)
+                ->get(['english_word', 'polish_word']);
+
+            // Return the words as a JSON response
+            return response()->json(['words' => $words]);
+        } catch (\Exception $e) {
+            // Return a 500 error response
+            return response()->json(['error' => 'Failed to fetch words'], 500);
+        }
+    }
+
+
 
     public function flashcards()
     {

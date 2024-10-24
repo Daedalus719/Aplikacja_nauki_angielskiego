@@ -41,6 +41,8 @@ Route::get('/games/translation', [GameController::class, 'translationGame'])->na
 Route::get('/games/random-words', [GameController::class, 'getRandomWords'])->name('games.randomWords');
 Route::get('/games/scrabble', [GameController::class, 'scrabble'])->name('games.scrabble');
 Route::post('/scrabble-words', [GameController::class, 'fetchScrabbleWords'])->name('scrabble.words');
+Route::get('/fetch-scrabble-words', [GameController::class, 'fetchScrabbleWords']);
+
 
 Route::get('/flashcards', [GameController::class, 'flashcards'])->name('games.flashcards');
 Route::get('/flashcards-test', [GameController::class, 'flashcardsTest'])->name('games.flashcards-test');
@@ -107,7 +109,6 @@ Route::middleware(['auth', 'Moderator'])->group(function () {
     Route::get('/section/{section_id}/tasks/all', [TaskController::class, 'showAll'])->name('tasks.show_all');
     Route::post('/tasks/{task_id}/update', [TaskController::class, 'update']);
     Route::delete('/tasks/{task_id}/delete', [TaskController::class, 'delete']);
-
 });
 
 

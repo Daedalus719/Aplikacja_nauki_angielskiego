@@ -1,14 +1,65 @@
 <x-app-layout>
     @section('title', 'Scrabble')
 
-    <div class="container mt-3 scrabble-game">
+    <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="configModalLabel">Konfiguracja gry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="configForm">
+                        <div class="mb-3">
+                            <label for="wordCount" class="form-label">Wybierz liczbę wyrazów (2-7)</label>
+                            <input type="number" class="form-control" id="wordCount" min="2" max="7"
+                                value="3" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Wybierz co najmniej jeden typ słów:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="nounCheckbox" value="Noun (Rzeczownik)">
+                                <label class="form-check-label" for="nounCheckbox">Noun (Rzeczownik)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="verbCheckbox" value="Verb (Czasownik)">
+                                <label class="form-check-label" for="verbCheckbox">Verb (Czasownik)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="adjCheckbox" value="Adjective (Przymiotnik)">
+                                <label class="form-check-label" for="adjCheckbox">Adjective (Przymiotnik)</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Wskażnik pokrycia z rozsypanymi słowami</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="feedback" id="feedbackTrue"
+                                    value="true" checked>
+                                <label class="form-check-label" for="feedbackTrue">Włącz</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="feedback" id="feedbackFalse"
+                                    value="false">
+                                <label class="form-check-label" for="feedbackFalse">Wyłącz</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="startGameBtn">Rozpocznij grę</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="gameContent" class="container mt-3 scrabble-game" style="display: none;">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <a href="{{ route('games.index') }}" class="btn btn-secondary return-btn">Powrót do wyboru gier</a>
-            </div>
-            <div class="score-container">
-                <span>Wynik: </span><span id="score">0</span>
             </div>
         </div>
 
@@ -16,7 +67,11 @@
             <p id="hint">Zgadnij słowa z podanych liter!</p>
             <div id="completion-message" class="alert alert-success mt-4" style="display: none;"></div>
             <div id="available-letters" class="mb-4"></div>
-            <input type="text" id="guess-input" class="form-control mb-2" placeholder="Enter your guess">
+
+            <div class="input-group mb-2">
+                <input type="text" id="guess-input" class="form-control" placeholder="Enter your guess">
+                <span id="guess-feedback" class="input-group-text">❌</span>
+            </div>
 
             <div class="d-flex justify-content-start align-items-center">
                 <button id="submit-guess" class="btn btn-success me-2">Sprawdź słowo</button>
@@ -39,14 +94,9 @@
             </div>
         </div>
 
-        <div id="hidden-words" style="display: none;">
-            @foreach ($words as $word)
-                <span class="hidden-word" data-word="{{ $word->english_word }}" data-polish="{{ $word->polish_word }}">{{ $word->polish_word }}</span>
-            @endforeach
-        </div>
-
-
+        <div id="hidden-words" style="display: none;"></div>
     </div>
+
 
     @vite('resources/js/scrabble-game.js')
     @vite('resources/css/scrabble-game.css')

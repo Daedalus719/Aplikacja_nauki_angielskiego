@@ -4,7 +4,7 @@
     <div class="container mt-3">
         <a href="{{ route('sentence_game.index') }}" class="btn btn-secondary mb-3">Wróć do sekcji z czasami</a>
 
-        <h1 class="main-text" >Układanka dla czasu "{{ $section->title }}"</h1>
+        <h1 class="main-text">Układanka dla czasu "{{ $section->title }}"</h1>
 
         @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
             <h3 class="label-color mb-2 mt-3">Dodaj zdanie:</h3>
@@ -48,7 +48,8 @@
 
             <button class="btn btn-success mt-4" onclick="location.reload()">Wygeneruj nowe zdanie.</button>
         @else
-            <p class="main-text">Brak znalezionych zdań. NIe badź zły. To znaczy że moderatorzy aktualnie pracują nad tą sekcją.</p>
+            <p class="main-text">Brak znalezionych zdań. NIe badź zły. To znaczy że moderatorzy aktualnie pracują nad tą
+                sekcją.</p>
         @endif
     </div>
 
@@ -87,13 +88,18 @@
 
             dropFields.forEach((field, index) => {
                 const droppedWord = field.innerText.trim();
-                if (droppedWord === correctSentence[index]) {
-                    field.classList.add('correct');
-                    field.classList.remove('incorrect');
+
+                if (droppedWord) {
+                    if (droppedWord === correctSentence[index]) {
+                        field.classList.add('correct');
+                        field.classList.remove('incorrect');
+                    } else {
+                        field.classList.add('incorrect');
+                        field.classList.remove('correct');
+                        isCorrect = false;
+                    }
                 } else {
-                    field.classList.add('incorrect');
-                    field.classList.remove('correct');
-                    isCorrect = false;
+                    field.classList.remove('correct', 'incorrect');
                 }
             });
         }
