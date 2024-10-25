@@ -7,10 +7,6 @@
                 sekcję</button>
         @endif
 
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
         @if ($sections->count())
             <ul class="list-group">
                 @foreach ($sections as $section)

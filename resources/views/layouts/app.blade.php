@@ -22,39 +22,43 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <script>
-        //jQuery.noConflict();
-        //jQuery(document).ready(function($) {
-         //   setTimeout(function() {
-           //     $('.alert').fadeTo(500, 0).slideUp(500, function() {
-            //        $(this).remove();
-            //    });
-          //  }, 3000);
-        //});
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alert-box').fadeTo(500, 0).slideUp(500, function() {
+                    $(this).remove();
+                });
+            }, 4000);
+        });
     </script>
 
-    @vite(['resources/js/messageHandler.js', 'resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
     <div class="min-h-screen main-background">
         @include('layouts.navigation')
 
+
         <div id="message-box" class="fixed bottom-5 right-5 z-50 w-96">
-            @if (session('success'))
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        showMessage('success', '{{ session('success') }}');
-                    });
-                </script>
+            @if(session('success'))
+                <div class="alert-box alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             @endif
 
-            @if (session('error'))
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        showMessage('error', '{{ session('error') }}');
-                    });
-                </script>
+            @if(session('error'))
+                <div class="alert-box alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             @endif
         </div>
 

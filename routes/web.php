@@ -16,15 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
-
+Route::get('/words/{id}', [HomeController::class, 'showWordDetails']);
 
 Route::get('/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
-Route::match(['get'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
-Route::get('/words/load-more', [WordController::class, 'loadMoreWords']);
-Route::get('/suggestions', [WordController::class, 'getSuggestions'])->name('suggestions');
 
+Route::get('/search', [HomeController::class, 'getSuggestions']);
+Route::get('/load-more', [WordController::class, 'loadMoreWords']);
+Route::get('/suggestions', [WordController::class, 'getSuggestions'])->name('suggestions');
 Route::get('/search-words', [WordController::class, 'search'])->name('words.search');
-Route::get('/words/{id}', [WordController::class, 'show'])->name('words.show');
+
+
 Route::get('/words', [WordController::class, 'index'])->name('words.index');
 
 Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
@@ -61,7 +62,6 @@ Route::get('/section/{section_id}/tasks/random', [TaskController::class, 'random
 
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -73,6 +73,8 @@ Route::middleware(['auth', 'Moderator'])->group(function () {
     Route::put('/words/{id}', [WordController::class, 'updateWord']);
     Route::delete('/words/{id}', [WordController::class, 'deleteWord']);
 
+    Route::put('/words/{id}', [HomeController::class, 'updateWord']);
+    Route::delete('/words/{id}', [HomeController::class, 'deleteWord']);
 
     Route::match(['post'], '/dictionary', [WordController::class, 'dictionary'])->name('dictionary');
 

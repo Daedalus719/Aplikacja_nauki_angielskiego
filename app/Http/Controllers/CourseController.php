@@ -31,18 +31,22 @@ class CourseController extends Controller
             'description' => 'required|string',
         ]);
 
-        $course = Course::create([
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
+        try {
+            $course = Course::create([
+                'title' => $request->title,
+                'description' => $request->description,
+            ]);
 
-        Test::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'course_id' => $course->id,
-        ]);
+            Test::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'course_id' => $course->id,
+            ]);
 
-        return redirect()->route('course.index')->with('success', 'Kurs został pomyślnie utworzony!');
+            return redirect()->route('course.index')->with('success', 'Kurs "' . $course->title . '" został pomyślnie utworzony wraz z testem!');
+        } catch (\Exception $e) {
+            return redirect()->route('course.create')->with('error', 'Wystąpił błąd podczas tworzenia kursu: ' . $e->getMessage());
+        }
     }
 
     public function edit(Course $course)
@@ -57,15 +61,24 @@ class CourseController extends Controller
             'description' => 'required|string',
         ]);
 
-        $course->update($request->all());
+        try {
+            $course->update($request->all());
 
-        return redirect()->route('course.index')->with('success', 'Kurs został pomyślnie zaktualizowany!');
+            return redirect()->route('course.index')->with('success', 'Kurs "' . $course->title . '" został pomyślnie zaktualizowany!');
+        } catch (\Exception $e) {
+            return redirect()->route('course.index')->with('error', 'Wystąpił błąd podczas aktualizacji kursu: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Course $course)
     {
-        $course->delete();
+        try {
+            $courseTitle = $course->title;
+            $course->delete();
 
-        return redirect()->route('course.index')->with('success', 'Kurs został pomyślnie usunięty.');
+            return redirect()->route('course.index')->with('success', 'Kurs "' . $courseTitle . '" został pomyślnie usunięty.');
+        } catch (\Exception $e) {
+            return redirect()->route('course.index')->with('error', 'Wystąpił błąd podczas usuwania kursu: ' . $e->getMessage());
+        }
     }
 }

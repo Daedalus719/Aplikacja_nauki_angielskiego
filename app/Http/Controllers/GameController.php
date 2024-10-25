@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Word;
-
-
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -21,17 +19,21 @@ class GameController extends Controller
 
     public function getRandomWords()
     {
-        $wordType = Word::inRandomOrder()->first()->word_type;
+        try {
+            $wordType = Word::inRandomOrder()->first()->word_type;
 
-        $words = Word::where('word_type', $wordType)
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
+            $words = Word::where('word_type', $wordType)
+                ->inRandomOrder()
+                ->limit(2)
+                ->get();
 
-        return response()->json([
-            'correct_word' => $words[0],
-            'incorrect_word' => $words[1]
-        ]);
+            return response()->json([
+                'correct_word' => $words[0],
+                'incorrect_word' => $words[1]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Wystąpił błąd podczas pobierania losowych słów: ' . $e->getMessage()], 500);
+        }
     }
 
     public function scrabble()
@@ -41,68 +43,79 @@ class GameController extends Controller
 
     public function fetchScrabbleWords(Request $request)
     {
-        // Validate inputs
         $wordCount = $request->get('wordCount');
         $wordTypes = $request->get('wordTypes');
 
         if (!$wordCount || !$wordTypes) {
-            return response()->json(['error' => 'Invalid input'], 400);
+            return response()->json(['error' => 'Nieprawidłowe dane wejściowe'], 400);
         }
 
         try {
-            // Fetch words based on the given word count and types
             $words = Word::whereIn('word_type', explode(',', $wordTypes))
                 ->inRandomOrder()
                 ->limit($wordCount)
                 ->get(['english_word', 'polish_word']);
 
-            // Return the words as a JSON response
             return response()->json(['words' => $words]);
         } catch (\Exception $e) {
-            // Return a 500 error response
-            return response()->json(['error' => 'Failed to fetch words'], 500);
+            return response()->json(['error' => 'Wystąpił błąd podczas pobierania słów: ' . $e->getMessage()], 500);
         }
     }
 
-
-
     public function flashcards()
     {
-        $words = Word::inRandomOrder()->limit(5)->get();
+        try {
+            $words = Word::inRandomOrder()->limit(5)->get();
 
-        session(['flashcards' => $words->pluck('id')->toArray()]);
+            session(['flashcards' => $words->pluck('id')->toArray()]);
 
-        return view('games.flashcards', compact('words'));
+            return view('games.flashcards', compact('words'));
+        } catch (\Exception $e) {
+            return redirect()->route('games.index')->with('error', 'Wystąpił błąd podczas przygotowywania fiszek: ' . $e->getMessage());
+        }
     }
-
 
     public function flashcardsTest()
     {
-        $wordIds = session('flashcards', []);
+        try {
+            $wordIds = session('flashcards', []);
 
-        $words = Word::whereIn('id', $wordIds)->get();
+            $words = Word::whereIn('id', $wordIds)->get();
 
-        return view('games.flashcards-test', compact('words'));
+            return view('games.flashcards-test', compact('words'));
+        } catch (\Exception $e) {
+            return redirect()->route('games.index')->with('error', 'Wystąpił błąd podczas ładowania testu z fiszkami: ' . $e->getMessage());
+        }
     }
-
-
 
     public function checkAnswers(Request $request)
     {
         $results = [];
 
-        foreach ($request->all() as $key => $answer) {
-            if (strpos($key, 'word_') === 0) {
-                $wordId = str_replace('word_', '', $key);
-                $word = Word::find($wordId);
+        try {
+            foreach ($request->all() as $key => $answer) {
+                if (strpos($key, 'word_') === 0) {
+                    $wordId = str_replace('word_', '', $key);
+                    $word = Word::find($wordId);
 
-                $results[] = [
-                    'id' => $wordId,
-                    'correct' => strtolower($answer) === strtolower($word->english_word),
-                ];
+                    if ($word) {
+                        $results[] = [
+                            'id' => $wordId,
+                            'correct' => strtolower($answer) === strtolower($word->english_word),
+                        ];
+                    } else {
+                        $results[] = [
+                            'id' => $wordId,
+                            'correct' => false,
+                            'error' => 'Nie znaleziono słowa.',
+                        ];
+                    }
+                }
             }
-        }
 
-        return response()->json(['results' => $results]);
+            return response()->json(['results' => $results]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Wystąpił błąd podczas sprawdzania odpowiedzi: ' . $e->getMessage()], 500);
+        }
     }
 }

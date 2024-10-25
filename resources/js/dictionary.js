@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function loadWords(offset, limit) {
-        fetch(`/words/load-more?offset=${offset}`)
+        fetch(`/load-more?offset=${offset}&limit=${limit}`)
             .then(response => response.json())
             .then(data => {
                 if (data.length > 0) {
@@ -239,4 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
             suggestionsList.innerHTML = '';
         }
     });
+
+    document.addEventListener('click', function (event) {
+        const isClickInside = englishWordInput.contains(event.target) || suggestionsList.contains(event.target);
+        if (!isClickInside) {
+            suggestionsList.innerHTML = '';
+        }
+    });
+
 });

@@ -1,5 +1,3 @@
-import { showMessage } from './messageHandler.js';
-
 document.addEventListener('DOMContentLoaded', function () {
     const tableBody = document.querySelector('#verbsTableBody');
     const addVerbForm = document.querySelector('#addVerbForm');

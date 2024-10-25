@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'All Sentences for "{{ $section->title }}"')
+    @section('title', 'Wszystkie zdania dla: ' . $section->title)
 
     <div class="container">
         <h1 class="main-text mt-3 mb-2">Wszystkie zdania dla: "{{ $section->title }}"</h1>

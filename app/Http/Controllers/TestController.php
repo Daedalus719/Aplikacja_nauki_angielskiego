@@ -10,20 +10,31 @@ class TestController extends Controller
 {
     public function index()
     {
-        $courses = Course::all();
-
-        return view('tests.index', compact('courses'));
+        try {
+            $courses = Course::all();
+            return view('tests.index', compact('courses'));
+        } catch (\Exception $e) {
+            return redirect()->route('tests.index')->with('error', 'Wystąpił błąd podczas ładowania kursów: ' . $e->getMessage());
+        }
     }
 
     public function show(Test $test)
     {
-        $words = $test->course->words;
-        return view('tests.show', compact('test', 'words'));
+        try {
+            $words = $test->course->words;
+            return view('tests.show', compact('test', 'words'));
+        } catch (\Exception $e) {
+            return redirect()->route('tests.index')->with('error', 'Wystąpił błąd podczas ładowania testu: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Test $test)
     {
-        $test->delete();
-        return redirect()->route('tests.index');
+        try {
+            $test->delete();
+            return redirect()->route('tests.index')->with('success', 'Test został pomyślnie usunięty.');
+        } catch (\Exception $e) {
+            return redirect()->route('tests.index')->with('error', 'Wystąpił błąd podczas usuwania testu: ' . $e->getMessage());
+        }
     }
 }

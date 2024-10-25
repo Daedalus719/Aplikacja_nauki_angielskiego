@@ -8,7 +8,7 @@ class Word extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['english_word', 'pronunciation', 'word_type', 'polish_word'];
+    protected $fillable = ['english_word', 'word_type', 'polish_word'];
 
     public function courses()
 {

@@ -11,7 +11,6 @@ class CreateWordsTable extends Migration
         Schema::create('words', function (Blueprint $table) {
             $table->id();
             $table->string('english_word');
-            $table->string('pronunciation')->nullable();
             $table->string('word_type');
             $table->string('polish_word');
             $table->timestamps();

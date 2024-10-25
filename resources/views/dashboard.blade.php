@@ -1,25 +1,36 @@
 <x-app-layout>
-    <x-slot name="header">
-    </x-slot>
-
-    <div class="jumbotron">
-        <h1 class="display-4">Witaj w Nauce Angielskiego</h1>
-        <p class="lead">Rozwijaj swoje umiejętności języka angielskiego dzięki naszej szerokiej gamie kursów i zasobów.
-        </p>
-        <hr class="my-4">
-        <p>To jest stronaa główna. pwitanie i objaśnienie zakłądek</p>
-    </div>
+    @section('title', 'Strona główna')
 
     <div class="container mt-5">
         <h2>Szukaj Słów</h2>
-        <form method="GET" action="{{ route('words.search') }}" id="wordSearchForm">
+        <form id="wordSearchForm">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" id="searchWord"
-                    placeholder="Wpisz słowo (polskie lub angielskie)" aria-label="Szukaj słowa" autocomplete="off">
+                       placeholder="Wpisz słowo (polskie lub angielskie)" aria-label="Szukaj słowa" autocomplete="off">
             </div>
-            <ul id="wordSuggestions" class="list-group" style="position: absolute; z-index: 1000;"></ul>
+            <ul id="wordSuggestions" class="list-group" style="position: absolute; z-index: 1000; max-width: 400px;">
+                <!-- Search results will be dynamically added here -->
+            </ul>
         </form>
     </div>
 
-@vite('resources/js/dashboard.js')
+
+    <div class="modal fade" id="wordModal" tabindex="-1" aria-labelledby="wordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+
+                </div>
+                <div class="modal-footer" id="modalFooter">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @vite('resources/js/dashboard.js')
 </x-app-layout>

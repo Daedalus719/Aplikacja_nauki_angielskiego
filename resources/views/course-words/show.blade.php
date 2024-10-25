@@ -6,13 +6,13 @@
         <a href="{{ route('course.index') }}" class="btn btn-secondary mb-3 mt-3">Przejdź do wyboru kursów</a>
 
         @if (Auth::check() && (Auth::user()->usertype === 'Admin' || Auth::user()->usertype === 'Moderator'))
-            <h2>Dodaj słowo do Kursu: {{ $course->title }}</h2>
+            <h2 class="main-text">Dodaj słowo do Kursu: {{ $course->title }}</h2>
 
             <form method="POST" action="{{ route('course-words.store', $course) }}">
                 @csrf
                 <div class="mb-3">
-                    <label for="english_word" class="form-label">Zacznij wpisywać i wybierz angielskie słowo z listy</label>
-                    <input type="text" class="form-control" id="english_word" name="english_word" autocomplete="off">
+                    <label for="english_word" class="label-color">Zacznij wpisywać i wybierz angielskie słowo z listy</label>
+                    <input type="text" class="form-element" id="english_word" name="english_word" autocomplete="off">
                     <input type="hidden" id="word_id" name="word_id">
                     <div id="suggestions" class="list-group" style="display: none;"></div>
                 </div>
@@ -21,7 +21,7 @@
             </form>
         @endif
 
-        <h2>Słownictwo dla tego kursu:</h2>
+        <h2 class="main-text">Słownictwo dla tego kursu:</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -124,7 +124,6 @@
                                 document.getElementById('word_id').value = word.id;
                                 suggestionsContainer.innerHTML = '';
                                 suggestionsContainer.style.display = 'none';
-                                speakWord(word.english_word);
                             });
                             suggestionsContainer.appendChild(suggestion);
                         });

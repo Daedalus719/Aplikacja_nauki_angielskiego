@@ -10,11 +10,13 @@ class SectionController extends Controller
 {
     public function index()
     {
-        $sections = Section::with('rules')->get();
-        return view('sections.index', compact('sections'));
+        try {
+            $sections = Section::with('rules')->get();
+            return view('sections.index', compact('sections'));
+        } catch (\Exception $e) {
+            return redirect()->route('sections.index')->with('error', 'Wystąpił błąd podczas ładowania sekcji: ' . $e->getMessage());
+        }
     }
-
-
 
     public function store(Request $request)
     {
@@ -22,15 +24,22 @@ class SectionController extends Controller
             'title' => 'required|string|max:255',
         ]);
 
-        Section::create($validated);
-
-        return redirect()->route('sections.index')->with('success', 'Sekcja z powodzeniem została stworzona!');
+        try {
+            Section::create($validated);
+            return redirect()->route('sections.index')->with('success', 'Sekcja została z powodzeniem stworzona!');
+        } catch (\Exception $e) {
+            return redirect()->route('sections.index')->with('error', 'Wystąpił błąd podczas tworzenia sekcji: ' . $e->getMessage());
+        }
     }
 
     public function show($id)
     {
-        $section = Section::with('rules')->findOrFail($id);
-        return view('sections.show', compact('section'));
+        try {
+            $section = Section::with('rules')->findOrFail($id);
+            return view('sections.show', compact('section'));
+        } catch (\Exception $e) {
+            return redirect()->route('sections.index')->with('error', 'Wystąpił błąd podczas ładowania sekcji: ' . $e->getMessage());
+        }
     }
 
     public function addRule(Request $request, $id)
@@ -39,12 +48,16 @@ class SectionController extends Controller
             'content' => 'required',
         ]);
 
-        $section = Section::findOrFail($id);
-        $section->rules()->create([
-            'content' => $validated['content'],
-        ]);
+        try {
+            $section = Section::findOrFail($id);
+            $section->rules()->create([
+                'content' => $validated['content'],
+            ]);
 
-        return redirect()->route('sections.show', $id)->with('success', 'Reguła z powodzeniem została dodana!');
+            return redirect()->route('sections.show', $id)->with('success', 'Reguła została z powodzeniem dodana!');
+        } catch (\Exception $e) {
+            return redirect()->route('sections.show', $id)->with('error', 'Wystąpił błąd podczas dodawania reguły: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id)
@@ -53,20 +66,27 @@ class SectionController extends Controller
             'title' => 'required|string|max:255',
         ]);
 
-        $section = Section::findOrFail($id);
-        $section->update($validated);
+        try {
+            $section = Section::findOrFail($id);
+            $section->update($validated);
 
-        return redirect()->route('sections.index')->with('success', 'Sekcja z powodzeniem została zaktualizowana!');
+            return redirect()->route('sections.index')->with('success', 'Sekcja została z powodzeniem zaktualizowana!');
+        } catch (\Exception $e) {
+            return redirect()->route('sections.index')->with('error', 'Wystąpił błąd podczas aktualizacji sekcji: ' . $e->getMessage());
+        }
     }
 
     public function destroy($id)
     {
-        $section = Section::findOrFail($id);
-        $section->delete();
+        try {
+            $section = Section::findOrFail($id);
+            $section->delete();
 
-        return redirect()->route('sections.index')->with('success', 'Sekcja z powodzeniem została usunięta!');
+            return redirect()->route('sections.index')->with('success', 'Sekcja została z powodzeniem usunięta!');
+        } catch (\Exception $e) {
+            return redirect()->route('sections.index')->with('error', 'Wystąpił błąd podczas usuwania sekcji: ' . $e->getMessage());
+        }
     }
-
 
     public function updateRule(Request $request, $id)
     {
@@ -74,25 +94,39 @@ class SectionController extends Controller
             'content' => 'required|string',
         ]);
 
-        $rule = Rule::findOrFail($id);
-        $rule->content = $validated['content'];
-        $rule->save();
+        try {
+            $rule = Rule::findOrFail($id);
+            $rule->content = $validated['content'];
+            $rule->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Reguła została zaktualizowana!',
-            'content' => $rule->content,
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Reguła została zaktualizowana!',
+                'content' => $rule->content,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Wystąpił błąd podczas aktualizacji reguły: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function deleteRule($id)
     {
-        $rule = Rule::findOrFail($id);
-        $rule->delete();
+        try {
+            $rule = Rule::findOrFail($id);
+            $rule->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Reguła została z powodzeniem usunięta!'
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Reguła została z powodzeniem usunięta!',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Wystąpił błąd podczas usuwania reguły: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }
